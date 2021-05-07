@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+    import Auth from '$lib/components/Auth.svelte';
+    import { session } from '$app/stores';
+</script>
+
+<h1>Wine Pottle</h1>
+
+<section>
+    {#if $session.user}
+        <p>Welcome {$session.user.name}</p>
+    {:else}
+        <Auth />
+    {/if}
+</section>
