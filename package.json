@@ -9,23 +9,25 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@sveltejs/kit": "next",
-    "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
-    "eslint": "^7.25.0",
+    "@sveltejs/kit": "^1.0.0-next.108",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^3.2.0",
     "prettier": "~2.2.1",
-    "prettier-plugin-svelte": "^2.2.0",
+    "prettier-plugin-svelte": "^2.3.0",
     "svelte": "^3.38.2",
     "svelte-preprocess": "^4.7.3",
     "tslib": "^2.0.0",
     "typescript": "^4.0.0",
-    "vite": "^2.2.4"
+    "vite": "^2.3.3"
   },
   "type": "module",
   "dependencies": {
+    "cloudinary": "^1.25.1",
     "cookie": "^0.4.1",
-    "firebase": "^8.5.0"
+    "firebase": "^8.6.1",
+    "link-preview-js": "^2.1.6"
   }
 }

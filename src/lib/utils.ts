@@ -1,11 +1,8 @@
-export async function post(endpoint: string, data: any): Promise<any> {
-	const response = await fetch(endpoint, {
-		method: 'POST',
-		credentials: 'include',
-		body: JSON.stringify(data || {}),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
-    return await response.json();
+interface HasDate {
+	datetime: Date | string
+}
+
+export function sortNewest<Type extends HasDate>(array: Type[]): Type[] {	
+	array.sort((a, b) => new Date(b.datetime).valueOf() - new Date(a.datetime).valueOf())
+	return array;
 }

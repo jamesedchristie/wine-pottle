@@ -1,13 +1,11 @@
 <!-- ****** Logic ****** -->
 <script lang="ts">
     import { goto } from '$app/navigation';
-
     import ErrorAlert from '$lib/components/ErrorAlert.svelte';
     import Card from '$lib/components/Card.svelte';
     import Button from '$lib/components/Button.svelte';
-    import { auth, googleAuth, usersCollection } from '../../services/firebase';
     import { session } from '$app/stores';
-    import { post } from '$lib/utils';
+    import { loading } from '$lib/stores'
 
     export let authMode: 'login' | 'register' = 'login';
     let err: string | null = null;
@@ -23,15 +21,34 @@
             return;
         }
         try {
-            const response = await post('auth/login', { email, password });
-            const userProfile = await usersCollection.doc(response.user.uid).get();
-            const data = userProfile.data();
-            $session.user = {
-                name: data.name,
-                email: data.email
-            };
+            $loading = true;
+            const loginResponse = await fetch('auth/login', {
+                method: 'post',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    email,
+                    password
+                })
+            });
+            if (!loginResponse.ok) {
+                const errorData = await loginResponse.json();
+                throw errorData.errors;
+            }
+            const creds = await loginResponse.json() as firebaseUser;
+            const userResponse = await fetch(`users/${creds.user.uid}.json`);
+            if (!userResponse.ok) {
+                const errorData = await userResponse.json();
+                throw errorData.errors;
+            }
+            const userData = await userResponse.json();
+            $session.user = userData;
+            $loading = false;
             goto('/');
         } catch (error) {
+            $loading = false;
             err = error;
             return;
         }
@@ -47,14 +64,29 @@
             return;
         }
         try {
-            const response = await post('auth/register', {username, email, password });
-            if (response.errors) throw response.errors;
-            const userProfile = await usersCollection.doc(response.user.uid).get();
-            const data = userProfile.data();
-            $session.user = {
-                name: data.name,
-                email: data.email
-            };
+            const registerResponse = await fetch('auth/register', {
+                method: 'post',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username, 
+                    email, 
+                    password 
+                })
+            });
+            if (!registerResponse.ok) {
+                const errorData = await registerResponse.json();
+                throw errorData.errors;
+            }            
+            const registerData = await registerResponse.json() as firebaseUser;
+            const userResponse = await fetch(`users/${registerData.user.uid}.json`);
+            const userData = await userResponse.json();
+            if (!userResponse.ok) {
+                throw userData.errors;
+            }  
+            $session.user = userData.user;
             goto('/');
         } catch (error) {
             err = error;

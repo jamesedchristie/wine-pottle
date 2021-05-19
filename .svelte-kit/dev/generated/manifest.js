@@ -1,11 +1,18 @@
 const c = [
-	() => import("..\\..\\..\\src\\routes\\$layout.svelte"),
-	() => import("..\\..\\..\\src\\routes\\$error.svelte"),
+	() => import("..\\..\\..\\src\\routes\\__layout.svelte"),
+	() => import("..\\..\\..\\src\\routes\\__error.svelte"),
 	() => import("..\\..\\..\\src\\routes\\index.svelte"),
-	() => import("..\\..\\..\\src\\routes\\articles\\index.svelte"),
-	() => import("..\\..\\..\\src\\routes\\gallery\\index.svelte"),
-	() => import("..\\..\\..\\src\\routes\\reading\\index.svelte"),
-	() => import("..\\..\\..\\src\\routes\\posts\\index.svelte")
+	() => import("..\\..\\..\\src\\routes\\logout.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\create.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\join.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\__layout.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\index.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\articles\\index.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\gallery\\index.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\reading\\index.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\lists\\index.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\posts\\index.svelte"),
+	() => import("..\\..\\..\\src\\routes\\login.svelte")
 ];
 
 const d = decodeURIComponent;
@@ -14,17 +21,74 @@ export const routes = [
 	// src/routes/index.svelte
 	[/^\/$/, [c[0], c[2]], [c[1]]],
 
-	// src/routes/articles/index.svelte
-	[/^\/articles\/?$/, [c[0], c[3]], [c[1]]],
+	// src/routes/images/upload.ts
+	[/^\/images\/upload\/?$/],
 
-	// src/routes/gallery/index.svelte
-	[/^\/gallery\/?$/, [c[0], c[4]], [c[1]]],
+	// src/routes/images/venues/[venue].json.ts
+	[/^\/images\/venues\/([^/]+?)\.json$/],
 
-	// src/routes/reading/index.svelte
-	[/^\/reading\/?$/, [c[0], c[5]], [c[1]]],
+	// src/routes/logout.svelte
+	[/^\/logout\/?$/, [c[0], c[3]], [c[1]]],
 
-	// src/routes/posts/index.svelte
-	[/^\/posts\/?$/, [c[0], c[6]], [c[1]]],
+	// src/routes/venues/index.json.ts
+	[/^\/venues\.json$/],
+
+	// src/routes/venues/joinVenue.ts
+	[/^\/venues\/joinVenue\/?$/],
+
+	// src/routes/venues/create.ts
+	[/^\/venues\/create\/?$/],
+
+	// src/routes/venues/create.svelte
+	[/^\/venues\/create\/?$/, [c[0], c[4]], [c[1]]],
+
+	// src/routes/venues/enter.ts
+	[/^\/venues\/enter\/?$/],
+
+	// src/routes/venues/leave.ts
+	[/^\/venues\/leave\/?$/],
+
+	// src/routes/venues/join.svelte
+	[/^\/venues\/join\/?$/, [c[0], c[5]], [c[1]]],
+
+	// src/routes/venues/[id].json.ts
+	[/^\/venues\/([^/]+?)\.json$/],
+
+	// src/routes/venues/[venue]/index.svelte
+	[/^\/venues\/([^/]+?)\/?$/, [c[0], c[6], c[7]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/venues/[venue]/articles/index.json.ts
+	[/^\/venues\/([^/]+?)\/articles\.json$/],
+
+	// src/routes/venues/[venue]/articles/index.svelte
+	[/^\/venues\/([^/]+?)\/articles\/?$/, [c[0], c[6], c[8]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/venues/[venue]/articles/preview.ts
+	[/^\/venues\/([^/]+?)\/articles\/preview\/?$/],
+
+	// src/routes/venues/[venue]/gallery/index.svelte
+	[/^\/venues\/([^/]+?)\/gallery\/?$/, [c[0], c[6], c[9]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/venues/[venue]/reading/index.svelte
+	[/^\/venues\/([^/]+?)\/reading\/?$/, [c[0], c[6], c[10]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/venues/[venue]/lists/index.json.ts
+	[/^\/venues\/([^/]+?)\/lists\.json$/],
+
+	// src/routes/venues/[venue]/lists/index.svelte
+	[/^\/venues\/([^/]+?)\/lists\/?$/, [c[0], c[6], c[11]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/venues/[venue]/posts/index.json.ts
+	[/^\/venues\/([^/]+?)\/posts\.json$/],
+
+	// src/routes/venues/[venue]/posts/index.svelte
+	[/^\/venues\/([^/]+?)\/posts\/?$/, [c[0], c[6], c[12]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/login.svelte
+	[/^\/login\/?$/, [c[0], c[13]], [c[1]]],
+
+	// src/routes/users/[id].json.ts
+	[/^\/users\/([^/]+?)\.json$/],
 
 	// src/routes/auth/register.ts
 	[/^\/auth\/register\/?$/],

@@ -1,6 +1,7 @@
 <!-- ****** Logic ****** -->
 <script lang="ts">
-    export let variant: 'primary' | 'secondary' | 'danger';
+    export let variant: 'primary' | 'secondary' | 'danger' = 'primary';
+    export let type: 'button' | 'submit' | 'menu' | 'reset' = 'button';
 </script>
 
 <!-- ****** Styling ****** -->
@@ -26,6 +27,6 @@
 </style>
 
 <!-- ****** Markup ****** -->
-<button class={variant} on:click>
+<button class={variant} {type} on:click>
     <slot></slot>
 </button>
