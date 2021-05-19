@@ -25,4 +25,6 @@
 <!-- ****** Markup ****** -->
 <h2>{message}</h2>
 
-<a href="/login">Login</a>
+<div>
+    <a href="/login">Login</a>
+</div>

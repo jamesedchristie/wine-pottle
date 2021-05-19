@@ -1,3 +1,2 @@
 node_modules
-src/firebase_config.ts
-.env.*
+.env*
