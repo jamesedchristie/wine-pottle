@@ -5,7 +5,6 @@
 	import { session } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import ErrorAlert from '$lib/components/ErrorAlert.svelte';
-	import { get, post } from '$lib/utils';
 
 	let name: string = '';
 	let password: string = '';

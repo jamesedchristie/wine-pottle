@@ -48,7 +48,7 @@
             formdata.append('upload_preset', 'wine-pottle');
             formdata.append('folder', 'WinePottle');
             formdata.append('tags', $session.venue.route);
-            let response = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            let response = await fetch(`https://api.cloudinary.com/v1_1/dkj7bctqg/image/upload`, {
                 method: 'post',
                 body: formdata
             });
