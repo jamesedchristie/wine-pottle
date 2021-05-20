@@ -1,18 +1,16 @@
 <!-- ****** Loading Logic ****** -->
 <script context="module" lang="ts">
-	import { winelistCollection } from '$services/firebase';
 	import type { Load } from '@sveltejs/kit';
+	import type { WineList } from '$types';
 
-	export const load: Load = async ({ session }) => {
+	export const load: Load = async ({ session, fetch }) => {
         try {
-			const wineLists = [];
-			const snapshot = await winelistCollection.where('venueId', '==', session.venue.id).get();
-			if (!snapshot.empty) {
-				for (let doc of snapshot.docs) {
-					wineLists.push(await doc.data());
-				}
-			}
-			//console.log(wineLists);
+			const listResponse = await fetch('/lists.json?venueId=' + session.venue.id);
+			if (!listResponse.ok) {
+                const errorData = await listResponse.json();
+                throw errorData.errors;
+            }
+			const wineLists = await listResponse.json();
 			return {
 				props: {
 					wineLists: wineLists
@@ -55,7 +53,7 @@
 				datetime: new Date()
 			};
 			wineLists = [...wineLists, newWineList];
-			fetch('lists.json', {
+			fetch('/lists.json', {
 				method: 'post',
 				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },

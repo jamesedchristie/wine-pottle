@@ -1,4 +1,4 @@
-import { venueMembersCollection, venuesCollection } from '$services/firebase';
+import { firestore } from '$services/firebaseAdmin';
 import type { EndpointOutput, Request } from '@sveltejs/kit';
 
 export async function post({
@@ -9,12 +9,12 @@ export async function post({
 	try {
 		const { name, userId, password } = body;
 		const route = encodeURIComponent(name.toLowerCase().split(' ').join('-'));
-		const venueRef = await venuesCollection.add({
+		const venueRef = await firestore.collection('venues').add({
 			name: name,
 			password: password,
 			route: route
 		});
-		await venueMembersCollection.add({
+		await firestore.collection('venueMembers').add({
 			venueId: venueRef.id,
 			userId: userId
 		});

@@ -1,19 +1,25 @@
-import firebase from 'firebase/compat/app';
-import "firebase/compat/auth";
-import 'firebase/compat/firestore';
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from 'firebase/firestore';
 import config from '../firebase_config';
 
-firebase.initializeApp(config);
+const ssrAuthed = (window as any).ssrUser;
 
-export const auth = firebase.auth();
-export const googleAuth = new firebase.auth.GoogleAuthProvider();
+const firebase = (window as any).firebase || initializeApp(config);
+(window as any).firebase = firebase;
+const auth = getAuth(firebase);
+const firestore = getFirestore(firebase);
 
-export const firestore = firebase.firestore();
+onAuthStateChanged(auth, (u) => {
+  console.log({ ssrAuthed, u });
+});
 
-export const usersCollection = firestore.collection('users');
-export const venuesCollection = firestore.collection('venues');
-export const venueMembersCollection = firestore.collection('venueMembers');
-export const postsCollection = firestore.collection('posts');
-export const articlesCollection = firestore.collection('articles');
-export const winelistCollection = firestore.collection('wineLists');
+export {
+  firebase,
+  auth,
+  firestore
+};
+
+
+

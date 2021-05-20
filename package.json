@@ -5,6 +5,7 @@
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "start": "svelte-kit start",
+    "preview": "svelte-kit preview",
     "lint": "prettier --check . && eslint --ignore-path .gitignore .",
     "format": "prettier --write ."
   },
@@ -30,6 +31,7 @@
     "cookie": "^0.4.1",
     "dotenv": "^9.0.2",
     "firebase": "^9.0.0-beta.1",
+    "firebase-admin": "^9.8.0",
     "link-preview-js": "^2.1.6"
   }
 }

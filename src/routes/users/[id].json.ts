@@ -1,15 +1,16 @@
+import { firestore } from "$services/firebaseAdmin";
 import type { EndpointOutput, Request } from "@sveltejs/kit";
-import { usersCollection } from "../../services/firebase";
+import type { WinePottleUser } from '../../global'
 
 export async function get(request: Request): Promise<EndpointOutput> {
     try {
         const { params } = request;
         const { id } = params;
-        const resp = await usersCollection.doc(id).get();
+        const resp = await firestore.doc(id).get();    
         const user: WinePottleUser = {
             id: resp.id,
-            name: resp.data().name,
-            email: resp.data().email
+            name: resp.get('name'),
+            email: resp.get('email')
         };
         return {
             body: user

@@ -6,51 +6,58 @@
     import Button from '$lib/components/Button.svelte';
     import { session } from '$app/stores';
     import { loading } from '$lib/stores'
-
+    import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
+    import type { UserCredential } from '@firebase/auth';
+    import { getContext } from 'svelte';
+    import { collection, doc, getDoc, setDoc } from '@firebase/firestore';
+    import type { FirebaseStore } from 'src/global';
+    import type { Writable } from 'svelte/store';
     export let authMode: 'login' | 'register' = 'login';
     let err: string | null = null;
+
+    const store = getContext<Writable<FirebaseStore>>('store');
 
     let email: string = '';
     let username: string = '';
     let password: string = '';    
     let confirmPassword: string = '';
 
-    async function login() {
+    async function signIn() {
+        $loading = true;            
         if (!email || !password) {
             err = 'Please fill out all fields';
             return;
         }
         try {
-            $loading = true;
-            const loginResponse = await fetch('auth/login', {
-                method: 'post',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ 
-                    email,
-                    password
-                })
-            });
-            if (!loginResponse.ok) {
-                const errorData = await loginResponse.json();
-                throw errorData.errors;
-            }
-            const creds = await loginResponse.json() as firebaseUser;
-            const userResponse = await fetch(`users/${creds.user.uid}.json`);
-            if (!userResponse.ok) {
-                const errorData = await userResponse.json();
-                throw errorData.errors;
-            }
-            const userData = await userResponse.json();
-            $session.user = userData;
+            $loading = true;            
+            const creds = await signInWithEmailAndPassword($store.auth, email, password);
+            login(creds);
+        } catch (error) {
             $loading = false;
+            err = error;
+        }
+    }
+
+    async function login(creds: UserCredential) {        
+        try {
+            const idToken = await creds.user.getIdToken();
+            console.log("Fetching auth/login with idToken " + idToken.substr(0, 10));
+            await fetch('auth/login', {
+                method: 'post',
+                headers: {
+                    'Authorization': idToken
+                }
+            });
+            let userDoc = await getDoc(doc(collection($store.firestore, 'users'), creds.user.uid));
+            $session.user = userDoc.data();
+            $session.user.id = creds.user.uid;
+            console.log($session.user);
+            $loading = false;
+            console.log("Going to index");
             goto('/');
         } catch (error) {
             $loading = false;
             err = error;
-            return;
         }
     }
 
@@ -64,33 +71,15 @@
             return;
         }
         try {
-            const registerResponse = await fetch('auth/register', {
-                method: 'post',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username, 
-                    email, 
-                    password 
-                })
+            const creds = await createUserWithEmailAndPassword($store.auth, email, password);
+            await setDoc(doc($store.firestore, 'users'), {
+                name: username,
+                email: email
             });
-            if (!registerResponse.ok) {
-                const errorData = await registerResponse.json();
-                throw errorData.errors;
-            }            
-            const registerData = await registerResponse.json() as firebaseUser;
-            const userResponse = await fetch(`users/${registerData.user.uid}.json`);
-            const userData = await userResponse.json();
-            if (!userResponse.ok) {
-                throw userData.errors;
-            }  
-            $session.user = userData.user;
-            goto('/');
+            login(creds);
         } catch (error) {
+            $loading = false;
             err = error;
-            return;
         }
     }
 </script>
@@ -121,7 +110,7 @@
                 <input id="loginPassword" type="password" placeholder="Enter your password" bind:value={password} />
             </div>
             <div>
-                <Button on:click={login} variant='primary'>Login</Button>
+                <Button on:click={signIn} variant='primary'>Login</Button>
             </div>
         </div>
     {:else}

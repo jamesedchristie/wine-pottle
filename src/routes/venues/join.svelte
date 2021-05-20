@@ -17,6 +17,7 @@
     import ErrorAlert from '$lib/components/ErrorAlert.svelte';
     import { session } from '$app/stores';
     import { goto } from "$app/navigation";
+    import type { Venue } from "$types";
 
     let err: string = '';
 
@@ -25,7 +26,7 @@
 
     async function submit(): Promise<void> {
         try {
-            const joinResponse = await fetch('/venues/joinVenue', {
+            const joinResponse = await fetch('/venues/join', {
                 method: 'post',
                 credentials: 'include',
                 headers: {

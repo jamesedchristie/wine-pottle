@@ -1,14 +1,15 @@
 <script context="module" lang="ts">
     import type { Load } from "@sveltejs/kit";
+    import type { Post } from "$types";
 
     export const load: Load = async ({ session, fetch }) => {
         try {
-            const response = await fetch('posts.json?venueId=' + session.venue.id);
+            const response = await fetch('/posts.json?venueId=' + session.venue.id);
             if (!response.ok) {
                 const errorData = await response.json();
                 throw errorData.errors;
             }
-            const { posts }: { posts: Post[] } = await response.json();
+            const posts: Post[] = await response.json();
             posts.forEach(p => p.datetime = new Date(p.datetime));
             return {
                 props: {
@@ -34,15 +35,10 @@
 
     export let err: string;
 
-    export let posts: Post[];
+    export let posts: Post[] = [];
 
     let title: string = '';
     let content: string = '';
-
-    type postResponse = {
-        ok: boolean;
-        docId: string;
-    }
 
     function newPost(): void {
         try {
@@ -55,11 +51,11 @@
                 venueId: $session.venue.id
             };
             posts = [...posts, newPost];
-            fetch('posts.json', {
+            fetch('/posts.json', {
                 method: 'post',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json '},
-                body: JSON.stringify({ newPost })
+                body: JSON.stringify(newPost)
             }).then(response => response.json())
             .then(data => {
                 if (data.errors) throw data.errors;
@@ -72,6 +68,10 @@
 </script>
 
 <style>
+    article {
+        border: 1px solid black;
+        border-radius: 4px;
+    }
     #compose {
         display: flex;
         flex-direction: column;
@@ -121,10 +121,11 @@
 
 <section id="feed">
     {#each sortNewest(posts) as post}
-        <Card title={post.title}>
+        <article>
+            <h3>{post.title}</h3>
             <strong>{post.author}</strong>
             <i>{post.datetime.toLocaleDateString()}</i>
             <p>{post.content}</p>
-        </Card>
+        </article>
     {/each}
 </section>

@@ -1,4 +1,6 @@
 <script context="module" lang="ts">
+    import type { Load } from '@sveltejs/kit';
+
     export const load: Load = ({ session }) => {
         if (!session.user) {
             return {
@@ -17,7 +19,6 @@
 <!-- ****** Logic ****** -->
 <script lang="ts">
     import { session } from '$app/stores';
-    import type { Load } from '@sveltejs/kit';
 </script>
 
 <!-- ****** Styling ****** -->

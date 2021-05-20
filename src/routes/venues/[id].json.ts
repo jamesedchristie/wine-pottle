@@ -1,11 +1,12 @@
+import { firestore } from "$services/firebaseAdmin";
+import type { Venue } from "$types";
 import type { EndpointOutput, Request } from "@sveltejs/kit";
-import { venuesCollection } from "../../services/firebase";
 
 export async function get(request: Request): Promise<EndpointOutput> {
     try {
         const { params } = request;
         const { id } = params;
-        const resp = await venuesCollection.doc(id).get();
+        const resp = await firestore.doc(id).get();
         const venue: Venue = {
             id: resp.id,
             name: resp.data().name,

@@ -1,6 +1,7 @@
 <!-- ****** Logic ****** -->
 <script context="module" lang="ts">
     import type { Load } from "@sveltejs/kit";
+    import type { Venue } from "$types";
 
     export const load: Load = async ({ session }) => {
         const venue: Venue = session.venue;

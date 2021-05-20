@@ -1,16 +1,26 @@
 import type { GetSession, Handle } from '@sveltejs/kit'; 
-import { auth, usersCollection, venuesCollection } from './services/firebase';
 import * as cookie from 'cookie';
+import { auth, firestore } from '$services/firebaseAdmin';
+import type { Venue, WinePottleUser } from '$types';
 
 export const handle: Handle = async ({ request, render }) => {
     try {
+        //console.log("Handle called");
         // console.log('Handle has been called at ' + new Date().toISOString());
-        if (auth.currentUser) {
+        const cookies = cookie.parse(request.headers?.cookie || '');
+        let idToken = cookies.jwt;
+        if (!idToken) {
+            //console.log("Handle: No cookie. Checking authorisation header");
+            idToken = request.headers?.authorization;
+            //if (idToken) console.log("Found auth header: " + idToken.substr(0, 10));
+        }
+        if (idToken) {
+            const decodedToken = await auth.verifyIdToken(idToken); 
+            //console.log("Token decoded")           
             // console.log("Current user:");
             // console.log(auth.currentUser.email);
-            request.locals.user = auth.currentUser;
-        }
-        const cookies = cookie.parse(request.headers?.cookie || '')
+            request.locals.user = decodedToken;
+        } else console.log("No cookie or auth header")
         const venueId = cookies.venueId;
         if (venueId) {
             // console.log("VenueId: " + venueId)
@@ -24,13 +34,15 @@ export const handle: Handle = async ({ request, render }) => {
 }
 
 export const getSession: GetSession = async (request) => {
+    //console.log("Get Session called");
     try {
         // console.log("getSession has been called at " + new Date().toISOString());
         // console.log(request.locals);
         let user: WinePottleUser | null = null;
         let venue: Venue | null = null;
         if (request.locals.user) {
-            const userProfile = await usersCollection.doc(request.locals.user?.uid).get();
+            //console.log("Gettng session user");
+            const userProfile = await firestore.collection('users').doc(request.locals.user?.uid).get();
             user = {
                 id: request.locals.user.uid,
                 name: userProfile.data().name,
@@ -38,7 +50,7 @@ export const getSession: GetSession = async (request) => {
             }
         }
         if (request.locals.venueId) {
-            const doc = await venuesCollection.doc(request.locals.venueId).get();
+            const doc = await firestore.collection('venues').doc(request.locals.venueId).get();
             venue = { id: doc.id, name: doc.data().name, route: doc.data().route };
         }
             

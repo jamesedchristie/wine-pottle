@@ -30,6 +30,7 @@
     import { session } from '$app/stores';
     import Button from '$lib/components/Button.svelte';
     import ErrorAlert from '$lib/components/ErrorAlert.svelte';
+    import type { CloudinaryImage } from '$types';
 
     export let err: string;
 

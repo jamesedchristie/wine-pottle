@@ -21,6 +21,12 @@ export const routes = [
 	// src/routes/index.svelte
 	[/^\/$/, [c[0], c[2]], [c[1]]],
 
+	// src/routes/articles/index.json.ts
+	[/^\/articles\.json$/],
+
+	// src/routes/articles/preview.ts
+	[/^\/articles\/preview\/?$/],
+
 	// src/routes/images/upload.ts
 	[/^\/images\/upload\/?$/],
 
@@ -32,9 +38,6 @@ export const routes = [
 
 	// src/routes/venues/index.json.ts
 	[/^\/venues\.json$/],
-
-	// src/routes/venues/joinVenue.ts
-	[/^\/venues\/joinVenue\/?$/],
 
 	// src/routes/venues/create.ts
 	[/^\/venues\/create\/?$/],
@@ -48,6 +51,9 @@ export const routes = [
 	// src/routes/venues/leave.ts
 	[/^\/venues\/leave\/?$/],
 
+	// src/routes/venues/join.ts
+	[/^\/venues\/join\/?$/],
+
 	// src/routes/venues/join.svelte
 	[/^\/venues\/join\/?$/, [c[0], c[5]], [c[1]]],
 
@@ -57,14 +63,8 @@ export const routes = [
 	// src/routes/venues/[venue]/index.svelte
 	[/^\/venues\/([^/]+?)\/?$/, [c[0], c[6], c[7]], [c[1]], (m) => ({ venue: d(m[1])})],
 
-	// src/routes/venues/[venue]/articles/index.json.ts
-	[/^\/venues\/([^/]+?)\/articles\.json$/],
-
 	// src/routes/venues/[venue]/articles/index.svelte
 	[/^\/venues\/([^/]+?)\/articles\/?$/, [c[0], c[6], c[8]], [c[1]], (m) => ({ venue: d(m[1])})],
-
-	// src/routes/venues/[venue]/articles/preview.ts
-	[/^\/venues\/([^/]+?)\/articles\/preview\/?$/],
 
 	// src/routes/venues/[venue]/gallery/index.svelte
 	[/^\/venues\/([^/]+?)\/gallery\/?$/, [c[0], c[6], c[9]], [c[1]], (m) => ({ venue: d(m[1])})],
@@ -72,26 +72,23 @@ export const routes = [
 	// src/routes/venues/[venue]/reading/index.svelte
 	[/^\/venues\/([^/]+?)\/reading\/?$/, [c[0], c[6], c[10]], [c[1]], (m) => ({ venue: d(m[1])})],
 
-	// src/routes/venues/[venue]/lists/index.json.ts
-	[/^\/venues\/([^/]+?)\/lists\.json$/],
-
 	// src/routes/venues/[venue]/lists/index.svelte
 	[/^\/venues\/([^/]+?)\/lists\/?$/, [c[0], c[6], c[11]], [c[1]], (m) => ({ venue: d(m[1])})],
-
-	// src/routes/venues/[venue]/posts/index.json.ts
-	[/^\/venues\/([^/]+?)\/posts\.json$/],
 
 	// src/routes/venues/[venue]/posts/index.svelte
 	[/^\/venues\/([^/]+?)\/posts\/?$/, [c[0], c[6], c[12]], [c[1]], (m) => ({ venue: d(m[1])})],
 
+	// src/routes/lists/index.json.ts
+	[/^\/lists\.json$/],
+
 	// src/routes/login.svelte
 	[/^\/login\/?$/, [c[0], c[13]], [c[1]]],
 
+	// src/routes/posts/index.json.ts
+	[/^\/posts\.json$/],
+
 	// src/routes/users/[id].json.ts
 	[/^\/users\/([^/]+?)\.json$/],
-
-	// src/routes/auth/register.ts
-	[/^\/auth\/register\/?$/],
 
 	// src/routes/auth/logout.ts
 	[/^\/auth\/logout\/?$/],

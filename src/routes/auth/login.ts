@@ -1,20 +1,15 @@
-import type { EndpointOutput } from '@sveltejs/kit';
-import { auth } from '../../services/firebase';
-import { respond } from './_respond';
+import type { EndpointOutput, Request } from '@sveltejs/kit';
 
-export async function post(request: Omit<Request, 'body'> & { body: {
-	email: string;
-	password: string
-}}): Promise<EndpointOutput> {
-	const { email, password } = request.body;
-	try {
-		const response = await auth.signInWithEmailAndPassword(email, password);
-		return respond(response);
-	} catch (err) {
-		return {
-			body: {
-				errors: err
-			}
-		};
+export function post({ headers }: Request): EndpointOutput {
+	console.log('Setting jwt header ' + headers.authorization.substr(0, 10));
+	const idToken = headers.authorization;
+	return {
+		status: 200,
+		headers: {
+			'set-cookie': `jwt=${idToken}; Path=/; HttpOnly`
+		},
+		body: {
+			message: 'Cookie set'
+		}
 	}
 }

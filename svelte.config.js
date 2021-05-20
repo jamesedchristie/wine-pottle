@@ -14,7 +14,8 @@ const config = {
 		vite: {
 			resolve: {
 				alias: {
-					$services: path.resolve('./src/services')
+					$services: path.resolve('./src/services'),
+					$types: path.resolve('./src/global')
 				}
 			}
 		},

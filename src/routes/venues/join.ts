@@ -1,5 +1,6 @@
+import { firestore } from '$services/firebaseAdmin';
+import type { VenueSecret } from '$types';
 import type { EndpointOutput, Request } from '@sveltejs/kit';
-import { venueMembersCollection, venuesCollection } from '../../services/firebase';
 
 export async function post(
 	request: Omit<Request, 'body'> & {
@@ -11,7 +12,7 @@ export async function post(
 	}
 ): Promise<EndpointOutput> {
 	try {
-		const doc: firebase.default.firestore.DocumentSnapshot = await venuesCollection
+		const doc = await firestore.collection('venues')
 			.doc(request.body.venueId)
 			.get();
 		const venue: VenueSecret = {
@@ -21,7 +22,7 @@ export async function post(
 			password: doc.data().password
 		};
 		if (venue.password === request.body.password) {
-			await venueMembersCollection.add({
+			await firestore.collection('venues').add({
 				venueId: venue.id,
 				userId: request.body.userId
 			});

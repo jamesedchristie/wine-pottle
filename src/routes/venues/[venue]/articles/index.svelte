@@ -1,29 +1,23 @@
 <!-- ****** Loading Logic ****** -->
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
-	import { articlesCollection } from '$services/firebase';
+	import type { Article, ArticlePreview } from '$types';
+	import { browser } from '$app/env';
+	import { collection, getDocs, query, where } from '@firebase/firestore';
+	import type { QuerySnapshot, DocumentData } from '@firebase/firestore';
+
 
 	export const load: Load = async ({ fetch, session }) => {
 		try {
-			let articles: Article[] = [];
-			const snapshot = await articlesCollection.where('venueId', '==', session.venue.id).get();
-			const docs = snapshot.docs;
-			for (let doc of docs) {
-				let article = (await doc.data()) as Article;
-				article.datetime = new Date(article.datetime);
-				const previewResponse = await fetch('articles/preview', { 
-					method: 'post',
-					credentials: 'include',
-					headers: { 'Content-Type': 'application/json ' },
-					body: JSON.stringify({ url: article.href }) 
-				});
-				if (!previewResponse.ok) {
-					const errorData = await previewResponse.json();
-					throw errorData.errors;
-				}				
-				article.preview = await previewResponse.json() as ArticlePreview;
-				articles.push(article);
-			}
+			console.log(session.venue);
+			const articlesResponse = await fetch('/articles.json?venueId=' + session.venue.id);
+			console.log('')
+			if (!articlesResponse.ok) {
+                const errorData = await articlesResponse.json();
+                throw errorData.errors;
+            }
+			const articles = await articlesResponse.json();
+			console.log("Loaded articles: " + articles.length);
 			return {
 				props: {
 					articles: articles
@@ -41,15 +35,50 @@
 
 <!-- ****** Client-side Logic ****** -->
 <script lang="ts">
-	import { sortNewest } from '$lib/utils';
+    import { sortNewest } from '$lib/utils';
 	import Button from '$lib/components/Button.svelte';
 	import ErrorAlert from '$lib/components/ErrorAlert.svelte';
 	import { session } from '$app/stores';
+	import { onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
+	import type { FirebaseStore } from '$types';
+	import { getContext } from 'svelte';
+
 
 	export let err: string;
 
-	export let articles: Article[];
+    const store = getContext<Writable<FirebaseStore>>('store');
+	console.log("Just after getContext " + Object.keys($store));
+	export let articles: Article[] = [];
+	console.log(articles.length);
 	// console.log(articles);
+	// onMount(async () => {
+	// 	console.log("In onMount " + Object.keys($store));
+	// 	console.log(articles);
+	// 	if (articles.length === 0) {
+	// 		console.log(Object.keys($store));
+	// 		// const store = getContext<Writable<FirebaseStore>>('store');
+	// 		// snapshot = await query collection('articles').where('venueId', '==', session.venue.id).get();
+	// 		const snapshot = await getDocs<Article>(query(collection($store.firestore, 'articles'), where('venueId', '==', $session.venue.id)));
+	// 		console.log(snapshot.docs.length);
+	// 		for (let doc of snapshot.docs) {
+	// 			let article = doc.data() as Article;
+	// 			article.datetime = new Date(article.datetime);
+	// 			const previewResponse = await fetch('articles/preview', { 
+	// 				method: 'post',
+	// 				credentials: 'include',
+	// 				headers: { 'Content-Type': 'application/json ' },
+	// 				body: JSON.stringify({ url: article.href }) 
+	// 			});
+	// 			if (!previewResponse.ok) {
+	// 				const errorData = await previewResponse.json();
+	// 				throw errorData.errors;
+	// 			}				
+	// 			article.preview = await previewResponse.json() as ArticlePreview;
+	// 			articles = [...articles, article];
+	// 		}			
+	// 	}
+	// })
 
 	let newArticleUrl: string = '';
 
@@ -61,7 +90,7 @@
 				href: newArticleUrl,
 				datetime: new Date()
 			};
-			const previewResponse = await fetch('articles/preview', { 
+			const previewResponse = await fetch('/articles/preview', { 
 				method: 'post',
 				credentials: 'include',
 				headers: { 'Content-Type': 'application/json ' },
@@ -73,7 +102,7 @@
 			}
 			newArticle.preview = await previewResponse.json() as ArticlePreview;
 			articles = [...articles, newArticle];
-			fetch('articles.json', {
+			fetch('/articles.json', {
 				method: 'post',
 				credentials: 'include',
 				headers: { 'Content-Type': 'application/json ' },

@@ -1,9 +1,5 @@
-import dotenv from 'dotenv';
-
-dotenv.config();
-
 export default {
-	apiKey: process.env['FIREBASE_API_KEY'],
+	apiKey: 'AIzaSyACvhpAOwJSte81OElgRJtfFvYLxpu-F6s',
 	authDomain: 'winepottle.firebaseapp.com',
 	projectId: 'winepottle',
 	storageBucket: 'winepottle.appspot.com',
