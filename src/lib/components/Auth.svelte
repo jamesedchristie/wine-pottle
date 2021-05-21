@@ -41,7 +41,7 @@
     async function login(creds: UserCredential) {        
         try {
             const idToken = await creds.user.getIdToken();
-            console.log("Fetching auth/login with idToken " + idToken.substr(0, 10));
+            //console.log("Fetching auth/login with idToken " + idToken.substr(0, 10));
             await fetch('auth/login', {
                 method: 'post',
                 headers: {
@@ -51,9 +51,9 @@
             let userDoc = await getDoc(doc(collection($store.firestore, 'users'), creds.user.uid));
             $session.user = userDoc.data();
             $session.user.id = creds.user.uid;
-            console.log($session.user);
+            //console.log($session.user);
             $loading = false;
-            console.log("Going to index");
+            //console.log("Going to index");
             goto('/');
         } catch (error) {
             $loading = false;

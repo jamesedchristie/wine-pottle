@@ -7,7 +7,7 @@ export async function post({ body }: { body: { url: string } } & Omit<Request, '
     // console.log(body);
     try {
         const url = body.url;
-        console.log(url);
+        //console.log(url);
         const preview = await getLinkPreview(url) as ArticlePreview;
         return {
             body: preview

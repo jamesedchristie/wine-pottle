@@ -12,7 +12,7 @@ export async function post({ body }: Omit<Request, 'body'> & { body: Article }):
             href,
             datetime
         });
-        console.log("Added doc " + ref.id);
+        //console.log("Added doc " + ref.id);
         return {
             body: {
                 id: ref.id
@@ -30,13 +30,13 @@ export async function post({ body }: Omit<Request, 'body'> & { body: Article }):
 export async function get({ query }: Request): Promise<EndpointOutput> {
     try {
         const venueId = query.get('venueId');
-        console.log(venueId);
+        //console.log(venueId);
         const snapshot = await firestore.collection('articles').where('venueId', '==', venueId).get();
-        console.log("Snapshot length: " + snapshot.docs.length);
+        //console.log("Snapshot length: " + snapshot.docs.length);
         let articles: Article[] = [];
         for (let doc of snapshot.docs) {
             let article = doc.data() as Article;
-            console.log(article);
+            //console.log(article);
             article.datetime = new Date(article.datetime);
             // const previewResponse = await fetch('/articles/preview', { 
             //     method: 'post',
@@ -52,7 +52,7 @@ export async function get({ query }: Request): Promise<EndpointOutput> {
             article.preview = await getLinkPreview(article.href) as ArticlePreview;
             articles.push(article);
         }
-        console.log(articles.length);
+        //console.log(articles.length);
         return {
             body: articles
         }

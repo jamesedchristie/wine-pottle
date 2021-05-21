@@ -6,7 +6,7 @@ export async function get({ query }: Request): Promise<EndpointOutput> {
     try {
         const venueId = query.get('venueId');
         const snapshot = await firestore.collection('posts').where('venueId', '==', venueId).get();
-        console.log(snapshot.docs.length);
+        //console.log(snapshot.docs.length);
         const posts = [];
         if (!snapshot.empty) {
             for (let doc of snapshot.docs) {

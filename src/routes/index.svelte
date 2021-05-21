@@ -2,12 +2,12 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ session, fetch }) => {
-		console.log('Called load function on index');
+		//console.log('Called load function on index');
 		if (!session.user) {
-			console.log('No user, sending back to login');
+			//console.log('No user, sending back to login');
 			return { redirect: 'login', status: 302 };
 		}
-        console.log(session.user);
+        //console.log(session.user);
 		if (session.venue) {
 			//console.log('Leaving ' + session.venue.name);
 			await fetch('/venues/leave', { method: 'post' });
