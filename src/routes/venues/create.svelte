@@ -37,7 +37,7 @@
 				throw errorData.errors;
 			}
 			const createData: { id: string, route: string } = await createResponse.json();
-			goto(`/venues/enter?venueId=${createData.id}&route=${createData.route}`);			
+			await goto(`/venues/enter?venueId=${createData.id}&route=${createData.route}`);			
 		} catch (error) {
 			err = error
 		}

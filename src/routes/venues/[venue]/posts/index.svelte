@@ -59,6 +59,8 @@
             }).then(response => response.json())
             .then(data => {
                 if (data.errors) throw data.errors;
+                title = '';
+                content = '';
                 newPost.id = data.postId;
             });
         } catch (error) {

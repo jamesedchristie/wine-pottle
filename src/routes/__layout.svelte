@@ -29,12 +29,15 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
-	import Auth from '$lib/components/Auth.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { loading } from '$lib/stores';
 	import { writable } from 'svelte/store';
 	import { setContext, onMount } from 'svelte';
-	import type { FirebaseStore } from 'src/global';
+	import type { FirebaseStore } from '../global';
+	import { initializeApp } from 'firebase/app';
+	import config from '../firebase_config';
+	import { getAuth } from 'firebase/auth';
+	import { getFirestore } from 'firebase/firestore';
 
 	let store = writable<FirebaseStore>({
 		firebase: null,
@@ -45,9 +48,12 @@
 	$: user = $session.user || null;
 	onMount(async () => {
 		(window as any).ssrUser = user;
-		const storeModule = await import('$services/firebase');
+		const firebase = (window as any).firebase || initializeApp(config);
+		(window as any).firebase = firebase;
+		const auth = getAuth(firebase);
+		const firestore = getFirestore(firebase);		
         //console.log("Setting firebase store in layout");
-		store.set(storeModule);
+		store.set({ firebase, auth, firestore });
 	});
 
 	async function logout() {
@@ -55,7 +61,7 @@
 		await fetch('/auth/logout', {
 			method: 'post'
 		});
-		goto('/logout');
+		await goto('/logout');
 	}
 </script>
 

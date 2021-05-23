@@ -54,7 +54,7 @@
             //console.log($session.user);
             $loading = false;
             //console.log("Going to index");
-            goto('/');
+            await goto('/');
         } catch (error) {
             $loading = false;
             err = error;

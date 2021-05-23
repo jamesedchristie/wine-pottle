@@ -1,25 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from 'firebase/firestore';
-import config from '../firebase_config';
+export default {};
 
-const ssrAuthed = (window as any).ssrUser;
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { initializeApp } from 'firebase/app';
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { getFirestore } from 'firebase/firestore';
+// import config from '../firebase_config';
 
-const firebase = (window as any).firebase || initializeApp(config);
-(window as any).firebase = firebase;
-const auth = getAuth(firebase);
-const firestore = getFirestore(firebase);
+// let ssrAuthed, firebase, auth, firestore;
 
-onAuthStateChanged(auth, (u) => {
-  console.log({ ssrAuthed, u });
-});
+// if (typeof window !== undefined) {
+//   ssrAuthed = (window as any).ssrUser;
+  
+//   firebase = (window as any).firebase || initializeApp(config);
+//   (window as any).firebase = firebase;
+//   auth = getAuth(firebase);
+//   firestore = getFirestore(firebase);
+// }
 
-export {
-  firebase,
-  auth,
-  firestore
-};
+// onAuthStateChanged(auth, (u) => {
+//   console.log({ ssrAuthed, u });
+// });
+
+// export {
+//   firebase,
+//   auth,
+//   firestore
+// };
 
 
 

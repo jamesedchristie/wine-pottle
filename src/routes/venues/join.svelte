@@ -43,7 +43,7 @@
 				throw errorData.errors; 
             }            
             $session.venue = venue;
-            goto(`${venue.route}`);
+            await goto(`${venue.route}`);
         } catch (error) {
             err = error
         }
