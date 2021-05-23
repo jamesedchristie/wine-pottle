@@ -17,9 +17,8 @@ export const handle: Handle = async ({ request, render }) => {
         if (idToken) {
             const decodedToken = await auth.verifyIdToken(idToken); 
             //console.log("Token decoded")           
-            console.log("Current user: " + decodedToken.email);
             request.locals.user = decodedToken;
-        } else console.log("No cookie or auth header")
+        }
         const venueId = cookies.venueId;
         if (venueId) {
             // console.log("VenueId: " + venueId)

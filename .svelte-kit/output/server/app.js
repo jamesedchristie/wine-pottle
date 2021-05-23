@@ -3,7 +3,7 @@ import {create_ssr_component, validate_component, missing_component, escape, nul
 import {setContext, afterUpdate, onMount, getContext} from "svelte";
 import * as cookie from "cookie";
 import {getLinkPreview} from "link-preview-js";
-import {v2} from "cloudinary";
+import cloudinary from "cloudinary/lib/v2/index.js";
 import dotenv from "dotenv";
 import admin from "firebase-admin";
 import {writable} from "svelte/store";
@@ -546,7 +546,7 @@ var upload = /* @__PURE__ */ Object.freeze({
   post: post$7
 });
 dotenv.config();
-v2.config({
+cloudinary.config({
   cloud_name: "dkj7bctqg",
   api_key: process.env["CLOUDINARY_API_KEY"],
   api_secret: process.env["CLOUDINARY_API_SECRET"]
@@ -555,7 +555,7 @@ async function get$6({params, query}) {
   const venue = params.venue;
   const next = query.get("next");
   try {
-    const gallery = await v2.api.resources_by_tag(venue, {
+    const gallery = await cloudinary.api.resources_by_tag(venue, {
       max_results: 5,
       next_cursor: next
     });
