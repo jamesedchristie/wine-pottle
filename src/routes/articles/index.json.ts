@@ -1,7 +1,7 @@
 import { firestore } from "$services/firebaseAdmin";
 import type { EndpointOutput, Request } from "@sveltejs/kit";
 import type { Article, ArticlePreview } from "$types";
-import { getLinkPreview } from "link-preview-js";
+import linkPreview from "link-preview-js";
 
 export async function post({ body }: Omit<Request, 'body'> & { body: Article }): Promise<EndpointOutput> {
     try {
@@ -49,7 +49,7 @@ export async function get({ query }: Request): Promise<EndpointOutput> {
             //     throw errorData.errors;
             // }				
             // article.preview = await previewResponse.json() as ArticlePreview;
-            article.preview = await getLinkPreview(article.href) as ArticlePreview;
+            article.preview = await linkPreview.getLinkPreview(article.href) as ArticlePreview;
             articles.push(article);
         }
         //console.log(articles.length);
