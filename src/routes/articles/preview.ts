@@ -1,6 +1,6 @@
 import type { ArticlePreview } from '$types';
 import type { EndpointOutput, Request } from '@sveltejs/kit';
-import { getLinkPreview } from 'link-preview-js';
+import linkPreview from 'link-preview-js';
 
 export async function post({ body }: { body: { url: string } } & Omit<Request, 'body'>): Promise<EndpointOutput> {
     // console.log("Preview called");
@@ -8,7 +8,7 @@ export async function post({ body }: { body: { url: string } } & Omit<Request, '
     try {
         const url = body.url;
         //console.log(url);
-        const preview = await getLinkPreview(url) as ArticlePreview;
+        const preview = await linkPreview.getLinkPreview(url) as ArticlePreview;
         return {
             body: preview
         }

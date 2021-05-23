@@ -2,7 +2,7 @@ import {respond} from "@sveltejs/kit/ssr";
 import {create_ssr_component, validate_component, missing_component, escape, null_to_empty, add_attribute, subscribe, each} from "svelte/internal";
 import {setContext, afterUpdate, onMount, getContext} from "svelte";
 import * as cookie from "cookie";
-import {getLinkPreview} from "link-preview-js";
+import linkPreview, {getLinkPreview} from "link-preview-js";
 import cloudinary from "cloudinary/lib/v2/index.js";
 import dotenv from "dotenv";
 import admin from "firebase-admin";
@@ -103,10 +103,8 @@ const handle = async ({request, render: render2}) => {
     }
     if (idToken) {
       const decodedToken = await auth.verifyIdToken(idToken);
-      console.log("Current user: " + decodedToken.email);
       request.locals.user = decodedToken;
-    } else
-      console.log("No cookie or auth header");
+    }
     const venueId = cookies.venueId;
     if (venueId) {
       request.locals.venueId = venueId;
@@ -506,7 +504,7 @@ var index_json$3 = /* @__PURE__ */ Object.freeze({
 async function post$8({body}) {
   try {
     const url = body.url;
-    const preview2 = await getLinkPreview(url);
+    const preview2 = await linkPreview.getLinkPreview(url);
     return {
       body: preview2
     };
