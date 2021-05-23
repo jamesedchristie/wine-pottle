@@ -1,5 +1,5 @@
 import type { GetSession, Handle } from '@sveltejs/kit'; 
-import * as cookie from 'cookie';
+import cookie from 'cookie';
 import { auth, firestore } from '$services/firebaseAdmin';
 import type { Venue, WinePottleUser } from '$types';
 
