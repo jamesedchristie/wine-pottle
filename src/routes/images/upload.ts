@@ -1,13 +1,10 @@
 import type { EndpointOutput } from "@sveltejs/kit";
+import cloudinary from '$services/cloudinary';
 
-export async function post(request: Request): Promise<EndpointOutput> {
+export async function post({ body }: Omit<Request, 'body'> & { body: FormData }): Promise<EndpointOutput> {
     //console.log(request);
     try {
-        await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-            method: 'post',
-            body: request.body
-        });
-        //console.log(response);
+        const response = await cloudinary.uploader.upload(body.get('file').toString(), { folder: 'WinePottle', tags: body.get('tags').toString() });
         return {
             body: {
                 ok: true

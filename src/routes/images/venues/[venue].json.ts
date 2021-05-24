@@ -4,11 +4,9 @@ import cloudinary from '$services/cloudinary';
 export async function get({ params, query }: Request): Promise<EndpointOutput> {
     const venue: string = params.venue;
     const next: string = query.get('next');
-    try {
-        const gallery = await cloudinary.api.resources_by_tag(venue, {
-            max_results: 5,
-            next_cursor: next
-        });        
+    try { 
+        const gallery = await cloudinary.search.expression('tags=' + venue).execute();
+        console.log(gallery);      
         return {
             body: JSON.stringify(gallery)
         }
