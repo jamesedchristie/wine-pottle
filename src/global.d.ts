@@ -24,14 +24,14 @@ type Venue = {
 	id: string;
 	name: string;
 	route: string;
+	owner?: string;
+	venueImageId?: string;
+	description?: string;
 };
 
 type VenueSecret = {
-	id: string;
-	name: string;
-	route: string;
 	password: string;
-};
+} & Venue;
 
 type UVM = {
 	id: string;

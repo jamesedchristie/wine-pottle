@@ -7,7 +7,7 @@
 				status: 302,
 				redirect: '/login'
 			};
-        }
+        }        
         return {
             props: {
                 
@@ -24,8 +24,12 @@
 <!-- ****** Styling ****** -->
 <style>
     #venueHeader {
-        height: 100px;
-        margin-bottom: 30px;
+        height: 200px;
+        padding-bottom: 20px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     #venueNav {
         flex: auto;
@@ -41,7 +45,12 @@
 </style>
 
 <!-- ****** Markup ****** -->
-<section id="venueHeader">
+<section 
+    id="venueHeader" 
+    style="background-image: url({$session.venue.venueImageId
+        ? `https://res.cloudinary.com/dkj7bctqg/image/upload/o_20/v1621853195/${$session.venue.venueImageId}`
+        : 'https://res.cloudinary.com/dkj7bctqg/image/upload/o_20,c_crop,h_300,w_300,x_256,y_284/v1621857774/WinePottle/wine-bar-default.jpg'});"
+>
     {#if $session.venue}
         <h1><a href={`/venues/${$session.venue.route}`}>{$session.venue.name}</a></h1>
 

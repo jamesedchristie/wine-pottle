@@ -37,7 +37,7 @@ export const getSession: GetSession = async (request) => {
         // console.log("getSession has been called at " + new Date().toISOString());
         // console.log(request.locals);
         let user: WinePottleUser | null = null;
-        let venue: Venue | null = null;
+        let venue = null;
         if (request.locals.user) {
             //console.log("Gettng session user");
             const userProfile = await firestore.collection('users').doc(request.locals.user?.uid).get();
@@ -49,7 +49,7 @@ export const getSession: GetSession = async (request) => {
         }
         if (request.locals.venueId) {
             const doc = await firestore.collection('venues').doc(request.locals.venueId).get();
-            venue = { id: doc.id, name: doc.data().name, route: doc.data().route };
+            venue = { id: doc.id, ...doc.data() };
         }
             
         return {

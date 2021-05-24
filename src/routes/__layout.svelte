@@ -36,7 +36,7 @@
 	import type { FirebaseStore } from '../global';
 	import { initializeApp } from 'firebase/app';
 	import config from '../firebase_config';
-	import { getAuth } from 'firebase/auth';
+	import { getAuth, onAuthStateChanged } from 'firebase/auth';
 	import { getFirestore } from 'firebase/firestore';
 
 	let store = writable<FirebaseStore>({
@@ -100,6 +100,9 @@
 		flex-direction: column;
 		margin: 0;
 	}
+	:global(body) {
+		margin: 0
+	}
 	:global(a) {
 		text-decoration: none;
 		color: inherit;
@@ -123,7 +126,7 @@
 		height: 50px;
 		border-bottom: 1px solid black;
 		color: white;
-		background-color: mediumslateblue;
+		background-color: rgb(35, 35, 40);
 		font-weight: bold;
 	}
 	#topNav {
@@ -139,11 +142,16 @@
 		display: flex;
 		flex-direction: column;
 		text-align: center;
-		padding: 20px 350px;
+		padding: 0px 20px;
 	}
 	footer {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+	}
+	@media screen and (min-width: 800px) {
+		main {
+			padding: 0px 200px;
+		}
 	}
 </style>

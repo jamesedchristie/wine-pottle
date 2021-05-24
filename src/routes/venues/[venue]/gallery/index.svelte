@@ -36,7 +36,7 @@
 
     //Gallery
     export let gallery: ResourceApiResponse | undefined;
-    let images: CloudinaryImage[] = gallery?.resources.map(r => r as CloudinaryImage) || [];
+    let images: CloudinaryImage[] = gallery?.resources?.map(r => r as CloudinaryImage) || [];
     $: sortedImages = images.sort((a, b) => new Date(b.created_at).valueOf() - new Date(a.created_at).valueOf());
 
     // Image uploading
@@ -64,15 +64,6 @@
     }
 </script>
 
-<!-- ****** Styling ****** -->
-<style>
-    #gallery {
-        display: flex;
-        flex-direction: column;
-        gap: 30px
-    }
-</style>
-
 <!-- ****** Markup ****** -->
 <h1>Gallery</h1>
 
@@ -94,8 +85,20 @@
 
 <div id="gallery">
     {#each sortedImages as image}
-        <picture>
+        <picture class="galleryImage">
             <img src={image.secure_url} alt={image.public_id} loading="lazy" />
         </picture>
     {/each}
 </div>
+
+<!-- ****** Styling ****** -->
+<style>
+    #gallery {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px
+    }
+</style>

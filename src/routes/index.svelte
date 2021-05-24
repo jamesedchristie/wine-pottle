@@ -57,9 +57,24 @@
 			<h2>Your Venues</h2>
 			<div id="userVenues">
 				{#each userVenues as venue}
-					<p>
-						<a href={`venues/enter?venueId=${venue.id}&route=${venue.route}`}>{venue.name}</a>
-					</p>
+					<div class="venueCard">
+						<div class="venueImage">								
+							<img 
+							src={venue.venueImageId 
+							? `https://res.cloudinary.com/dkj7bctqg/image/upload/v1621853195/${venue.venueImageId}`
+							: 'https://res.cloudinary.com/dkj7bctqg/image/upload/c_crop,h_300,w_300,x_256,y_284/v1621857774/WinePottle/wine-bar-default.jpg'}
+							alt={venue.name} 
+							style="border-radius: 5px;"
+							height="300px"
+							width="300px"
+							/>								
+						</div>							
+						<div class="venueInfo">
+							<h4>{venue.name}</h4>
+							<p>{venue.description || ""}</p>
+							<a href={`venues/enter?venueId=${venue.id}&route=${venue.route}`}>Enter</a>
+						</div>
+					</div>
 				{/each}
 			</div>
 		{/if}
@@ -82,5 +97,20 @@
 <style>
 	#newVenueButton {
 		margin: 25px 0px;
+	}
+	#userVenues {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 50px
+	}
+	.venueCard {
+		width: 300px;
+		border: 1px solid black;
+		border-radius: 5px;
+	}
+	.venueInfo {
+		padding: 10px
 	}
 </style>

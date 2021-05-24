@@ -57,7 +57,9 @@ export async function get({ query }: Request): Promise<EndpointOutput> {
             body: articles
         }
     } catch (err) {
+        console.log(err);
         return {
+            status: 500,
             body: {
                 errors: err
             }

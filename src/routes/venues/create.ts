@@ -4,14 +4,21 @@ import type { EndpointOutput, Request } from '@sveltejs/kit';
 export async function post({
 	body
 }: Omit<Request, 'body'> & {
-	body: { name: string; userId: string; password: string };
+	body: { 
+		name: string;
+		userId: string;
+		password: string;
+		venueImageId: string;
+		route: string;
+	};
 }): Promise<EndpointOutput> {
 	try {
-		const { name, userId, password } = body;
-		const route = encodeURIComponent(name.toLowerCase().split(' ').join('-'));
+		const { name, userId, password, venueImageId, route } = body;
 		const venueRef = await firestore.collection('venues').add({
 			name: name,
 			password: password,
+			owner: userId,
+			venueImageId: venueImageId,
 			route: route
 		});
 		await firestore.collection('venueMembers').add({
@@ -26,6 +33,7 @@ export async function post({
 			}
 		};
 	} catch (err) {
+		console.log(err);
 		return {
 			status: 500,
 			body: {
