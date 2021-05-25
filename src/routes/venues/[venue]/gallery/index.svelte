@@ -67,10 +67,11 @@
 <!-- ****** Markup ****** -->
 <h1>Gallery</h1>
 
-<form id="uploadForm" on:submit|preventDefault={uploadImage} >
-    <label for="imageUpload">Upload Image</label>
-    <input type="file" id="imageUpload" accept="image/*" bind:files />
-
+<form id="uploadForm" on:submit|preventDefault={uploadImage}>
+    <div class="formRow">
+        <label for="imageUpload">Upload Image</label>
+        <input type="file" id="imageUpload" accept="image/*" bind:files />
+    </div>
     <div id="preview">
         <img src={preview} alt="Preview" height="100px" />
     </div>
@@ -93,6 +94,12 @@
 
 <!-- ****** Styling ****** -->
 <style>
+    form {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px
+    }
     #gallery {
         margin-top: 50px;
         display: flex;

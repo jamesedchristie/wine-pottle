@@ -83,19 +83,19 @@
 		<ErrorAlert>{err}</ErrorAlert>
 	{/if}
 	<form on:submit|preventDefault={createVenue}>
-		<div>
+		<div class="formRow">
 			<label for="venueName">Venue Name</label>
 			<input id="venueName" type="text" bind:value={name} />
 		</div>
-		<div>
+		<div class="formRow">
 			<label for="venueDescription">Description</label>
 			<input id="venueDescription" type="text" bind:value={description} />
 		</div>
-		<div>
+		<div class="formRow">
 			<label for="venuePassword">Venue Password</label>
 			<input id="venuePassword" type="text" bind:value={password} />
 		</div>
-		<div>
+		<div class="formRow">
 			<label for="imageUpload">Venue Image</label>
 			<input type="file" id="imageUpload" accept="image/*" bind:files />
 		</div>
@@ -110,4 +110,32 @@
 
 <!-- ****** Styling ****** -->
 <style>
+	section {
+		width: 75%;
+	}
+	form {
+		width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0px;
+    }
+    .formRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    label {
+        width: 20%;
+        text-align: end;
+    }
+    input {
+        width: 30%;
+        text-align: start;
+    }
+	#preview {
+		margin: 20px 0px;
+	}
 </style>

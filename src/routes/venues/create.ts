@@ -10,16 +10,18 @@ export async function post({
 		password: string;
 		venueImageId: string;
 		route: string;
+		description: string;
 	};
 }): Promise<EndpointOutput> {
 	try {
-		const { name, userId, password, venueImageId, route } = body;
+		const { name, userId, password, venueImageId, route, description } = body;
 		const venueRef = await firestore.collection('venues').add({
 			name: name,
 			password: password,
 			owner: userId,
 			venueImageId: venueImageId,
-			route: route
+			route: route,
+			description: description
 		});
 		await firestore.collection('venueMembers').add({
 			venueId: venueRef.id,

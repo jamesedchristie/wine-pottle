@@ -66,7 +66,9 @@
 				const errorData = await previewResponse.json();
 				throw errorData.errors;
 			}
-			newArticle.preview = await previewResponse.json() as ArticlePreview;
+			let preview = await previewResponse.json() as ArticlePreview;
+			preview.description = preview.description.length > 100 ? preview.description.substr(0, 100) + '...' : preview.description;
+			newArticle.preview = preview;
 			articles = [...articles, newArticle];
 			fetch('/articles.json', {
 				method: 'post',

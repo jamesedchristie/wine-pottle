@@ -5,12 +5,15 @@ import linkPreview from "link-preview-js";
 
 export async function post({ body }: Omit<Request, 'body'> & { body: Article }): Promise<EndpointOutput> {
     try {
-        const { userId, venueId, href, datetime } = body;
+        const { userId, venueId, href, datetime, preview } = body;
         const ref = await firestore.collection('articles').add({
             userId,
             venueId,
             href,
-            datetime
+            datetime,
+            title: preview.title,
+            image: preview.images[0],
+            description: preview.description            
         });
         //console.log("Added doc " + ref.id);
         return {
@@ -37,19 +40,7 @@ export async function get({ query }: Request): Promise<EndpointOutput> {
         for (let doc of snapshot.docs) {
             let article = doc.data() as Article;
             //console.log(article);
-            article.datetime = new Date(article.datetime);
-            // const previewResponse = await fetch('/articles/preview', { 
-            //     method: 'post',
-            //     credentials: 'include',
-            //     headers: { 'Content-Type': 'application/json ' },
-            //     body: JSON.stringify({ url: article.href }) 
-            // });
-            // if (!previewResponse.ok) {
-            //     const errorData = await previewResponse.json();
-            //     throw errorData.errors;
-            // }				
-            // article.preview = await previewResponse.json() as ArticlePreview;
-            article.preview = await linkPreview.getLinkPreview(article.href) as ArticlePreview;
+            article.datetime = new Date(article.datetime);            
             articles.push(article);
         }
         //console.log(articles.length);

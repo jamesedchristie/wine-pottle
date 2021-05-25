@@ -84,60 +84,83 @@
     }
 </script>
 
-<!-- ****** Styling ****** -->
-<style>
-    
-</style>
-
 <!-- ****** Markup ****** -->
 <Card title={authMode === 'login' ? 'Login' : 'Register'}>
     <div>
-        <Button on:click={() => authMode = 'login'} variant={authMode === 'login' ? 'secondary' : 'primary'}>Login</Button>
-        <Button on:click={() => authMode = 'register'} variant={authMode === 'register' ? 'secondary' : 'primary'}>Register</Button>
+        <p>
+            {#if authMode === 'login'}
+                Don't have an account? <Button on:click={() => authMode = 'register'} variant={'primary'}>Sign up</Button>
+            {:else}
+                Already have an account?  <Button on:click={() => authMode = 'login'} variant={'primary'}>Login</Button>
+            {/if}
+        </p>
     </div>
     {#if authMode === 'login'}
-        <div>
+        <div class="form">
             {#if err}
                 <ErrorAlert message={err} />
             {/if}
-            <h4>Login</h4>    
-            <div>
+            <div class="formRow">
                 <label for="loginEmail">Email</label>
                 <input id="loginEmail" type="email" placeholder="Enter your email address" bind:value={email} />
             </div>
-            <div>
+            <div class="formRow">
                 <label for="loginPassword">Password</label>
                 <input id="loginPassword" type="password" placeholder="Enter your password" bind:value={password} />
             </div>
-            <div>
+            <div class="formRow">
                 <Button on:click={signIn} variant='primary'>Login</Button>
             </div>
         </div>
     {:else}
-        <div>
+        <div class="form">
             {#if err}
                 <ErrorAlert message={err} />
             {/if}
-            <h4>Register</h4>
-            <div>
+            <div class="formRow">
                 <label for="registerName">Username</label>
                 <input id="registerName" type="text" placeholder="Enter you username" bind:value={username} />
             </div>    
-            <div>
+            <div class="formRow">
                 <label for="registerEmail">Email</label>
                 <input id="registerEmail" type="email" placeholder="Enter your email address" bind:value={email} />
             </div>
-            <div>
+            <div class="formRow">
                 <label for="registerPassword">Password</label>
                 <input id="registerPassword" type="password" placeholder="Enter your password" bind:value={password} />
             </div>
-            <div>
+            <div class="formRow">
                 <label for="confirmRegisterPassword">Password</label>
                 <input id="confirmRegisterPassword" type="password" placeholder="Enter your password" bind:value={confirmPassword} />
             </div>
-            <div>
+            <div class="formRow">
                 <Button on:click={register} variant='primary'>Register</Button>
             </div>
         </div>
     {/if}    
 </Card>
+
+<!-- ****** Styling ****** -->
+<style>
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0px;
+    }
+    .formRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    label {
+        width: 20%;
+        text-align: end;
+    }
+    input {
+        width: 50%;
+        text-align: start;
+    }
+</style>

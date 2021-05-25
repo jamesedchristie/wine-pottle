@@ -69,36 +69,6 @@
     }
 </script>
 
-<style>
-    article {
-        border: 1px solid black;
-        border-radius: 4px;
-    }
-    #compose {
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    #titleSection {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    #newPostButtons {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        gap: 10px;
-    }
-    #feed {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-</style>
-
 <h2>Posts</h2>
 
 {#if err}
@@ -124,10 +94,64 @@
 <section id="feed">
     {#each sortNewest(posts) as post}
         <article>
-            <h3>{post.title}</h3>
-            <strong>{post.author}</strong>
-            <i>{post.datetime.toLocaleDateString()}</i>
-            <p>{post.content}</p>
+            <div class="postMeta">
+                <strong>{post.author}</strong>
+                <i>{post.datetime.toLocaleDateString()}</i>
+            </div>
+            <div class="postContent">
+                <h3>{post.title}</h3>
+                <p>{post.content}</p>
+            </div>
         </article>
     {/each}
 </section>
+
+<style>
+    article {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid var(--wine-pottle-black);
+        border-radius: 10px;
+    }
+    #compose {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    #titleSection {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    #newPostButtons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    #feed {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .postMeta {
+        flex: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--wine-pottle-black);
+        color: white;
+    }
+    .postContent {
+        flex: 75%;
+        justify-content: center;
+        align-items: center;
+        text-align: start;
+        padding: 0px 10px;
+    }
+</style>

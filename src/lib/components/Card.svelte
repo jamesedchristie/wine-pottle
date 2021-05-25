@@ -5,17 +5,19 @@
 <style>
     .cardContainer {
         border: 1px solid black;
-        border-radius: 5px;
+        border-radius: 10px;
+        overflow: hidden;
+        min-width: 50%;
+        max-width: 100%;
+        padding-bottom: 10px;
+        box-shadow: 2px 2px 10px grey;
     }
     .cardTitle {
-        border-bottom: 1px solid red;
         font-size: x-large;
         color: white;
         background-color: black;
-    }
-    .cardContent {
-        padding: 5px;
-        font-style: italic;
+        padding: 10px 0px;
+        margin-bottom: 10px;
     }
 </style>
 

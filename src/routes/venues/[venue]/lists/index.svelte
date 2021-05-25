@@ -76,25 +76,23 @@
     <ErrorAlert>{err}</ErrorAlert>
 {/if}
 
-<section id="newList">
-    <form id="newListForm" on:submit|preventDefault={addList}>
-        <div>
-            <label for="venueName">Venue</label>
-            <input id="venueName" bind:value={venueName} type="text" />
-        </div>
-        <div>
-            <label for="newListUrl">Link</label>
-            <input id="newListUrl" bind:value={newListUrl} type="text" />
-        </div>
-        <div>
-            <label for="note">Note</label>
-            <textarea id="note" bind:value={note} rows="5" cols="45" ></textarea>
-        </div>
-        <div>
-            <Button variant="primary" type="submit">Post</Button>
-        </div>
-    </form>
-</section>
+<form id="newListForm" on:submit|preventDefault={addList}>
+	<div class="formRow">
+		<label for="venueName">Venue</label>
+		<input id="venueName" bind:value={venueName} type="text" />
+	</div>
+	<div class="formRow">
+		<label for="newListUrl">Link</label>
+		<input id="newListUrl" bind:value={newListUrl} type="text" />
+	</div>
+	<div class="formRow">
+		<label for="note">Note</label>
+		<textarea id="note" bind:value={note} rows="5" cols="45" ></textarea>
+	</div>
+	<div class="buttonRow">
+		<Button variant="primary" type="submit">Post</Button>
+	</div>
+</form>
 
 <section id="feed">
 	{#each sortNewest(wineLists) as list}
@@ -108,13 +106,36 @@
 
 <!-- ****** Styling ****** -->
 <style>
-    #newList {
+    #newListForm {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
-		text-align: left;
-		gap: 10px;
+		gap: 5px;
 		margin-bottom: 20px;
 	}
+	.formRow {
+		display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+	}
+	.buttonRow {
+		display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+	}
+	label {
+        width: 20%;
+        text-align: end;
+    }
+    input, textarea {
+        width: 60%;
+        text-align: start;
+		box-sizing: border-box;
+    }
 	#feed {
 		display: flex;
 		flex-direction: column;

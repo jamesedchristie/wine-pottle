@@ -51,6 +51,11 @@
 		const firebase = (window as any).firebase || initializeApp(config);
 		(window as any).firebase = firebase;
 		const auth = getAuth(firebase);
+		onAuthStateChanged(auth, async user => {
+			if (!user) {
+				await goto('/login');
+			}
+		});
 		const firestore = getFirestore(firebase);		
         //console.log("Setting firebase store in layout");
 		store.set({ firebase, auth, firestore });
@@ -76,7 +81,7 @@
 		<div id="topNavRight">
 			{#if $session.user}
 				<a href={`/profile/${$session.user.name}`} style="margin: 0px 20px">{$session.user.name}</a>
-				<Button variant="primary" on:click={logout}>Logout</Button>
+				<Button variant="danger" on:click={logout}>Logout</Button>
 			{:else}
 				<a href="/login">Login</a>
 			{/if}
@@ -93,8 +98,15 @@
 </footer>
 
 <style>
+	:root {
+		--wine-pottle-black: rgb(25, 25, 40);
+		--wine-pottle-secondary: rgb(40, 40, 117);
+		--wine-pottle-accent: rgb(114, 33, 53);
+	}
 	:global(#svelte) {
 		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		color: var(--wine-pottle-black);
+		font-size: 15px;
 		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
@@ -110,7 +122,7 @@
 	:global(input, textarea) {
 		padding: 4px 5px;
 		font-family: inherit;
-		border: 1px solid black;
+		border: 1px solid var(--wine-pottle-black);
 		border-radius: 3px;
 		box-shadow: none;
 		font-size: inherit;
@@ -126,8 +138,9 @@
 		height: 50px;
 		border-bottom: 1px solid black;
 		color: white;
-		background-color: rgb(35, 35, 40);
+		background-color: var(--wine-pottle-black);
 		font-weight: bold;
+		box-shadow: 1px 1px 5px var(--wine-pottle-black);
 	}
 	#topNav {
 		flex: auto;
@@ -141,6 +154,7 @@
 		flex: 1 1 auto;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		text-align: center;
 		padding: 0px 20px;
 	}

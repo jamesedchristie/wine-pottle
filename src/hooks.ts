@@ -15,9 +15,13 @@ export const handle: Handle = async ({ request, render }) => {
             //if (idToken) console.log("Found auth header: " + idToken.substr(0, 10));
         }
         if (idToken) {
-            const decodedToken = await auth.verifyIdToken(idToken); 
-            //console.log("Token decoded")           
-            request.locals.user = decodedToken;
+            try {
+                const decodedToken = await auth.verifyIdToken(idToken);
+                //console.log("Token decoded")           
+                request.locals.user = decodedToken;
+            } catch (err) {
+                console.log('Authentication failed');
+            }
         }
         const venueId = cookies.venueId;
         if (venueId) {

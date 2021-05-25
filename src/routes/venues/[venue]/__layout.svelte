@@ -21,29 +21,6 @@
     import { session } from '$app/stores';
 </script>
 
-<!-- ****** Styling ****** -->
-<style>
-    #venueHeader {
-        height: 200px;
-        padding-bottom: 20px;
-        margin-bottom: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    #venueNav {
-        flex: auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
-    #venueNav a {
-        display: block;
-        margin: auto 20px;
-        font-size: 28px;
-    }
-</style>
-
 <!-- ****** Markup ****** -->
 <section 
     id="venueHeader" 
@@ -65,3 +42,28 @@
 </section>
 
 <slot></slot>
+
+<!-- ****** Styling ****** -->
+<style>
+    #venueHeader {
+        width: 100vw;
+        height: 200px;
+        padding-bottom: 20px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+    #venueNav {
+        flex: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    #venueNav a {
+        display: block;
+        margin: auto 20px;
+        font-size: 28px;
+    }
+</style>
