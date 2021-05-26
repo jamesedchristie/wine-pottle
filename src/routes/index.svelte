@@ -100,7 +100,7 @@
 		flex: 25%;
 		text-align: center;	
 	}	
-	#userVenues {
+	#userVenues, #allVenues {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
