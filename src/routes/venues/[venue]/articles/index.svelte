@@ -1,7 +1,7 @@
 <!-- ****** Loading Logic ****** -->
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
-	import type { Article, ArticlePreview } from '$types';
+	import type { Article, GetLinkPreviewResponse } from '$types';
 
 	export const load: Load = async ({ fetch, session }) => {
 		try {
@@ -11,7 +11,8 @@
                 const errorData = await articlesResponse.json();
                 throw errorData.errors;
             }
-			const articles = await articlesResponse.json();
+			const articles: Article[] = await articlesResponse.json();
+			articles.forEach(a => a.datetime = new Date(a.datetime));
 			//console.log("Loaded articles: " + articles.length);
 			return {
 				props: {
@@ -37,6 +38,7 @@
 	import type { Writable } from 'svelte/store';
 	import type { FirebaseStore } from '$types';
 	import { getContext } from 'svelte';
+	import ArticleCard from '$lib/components/ArticleCard.svelte';
 
 
 	export let err: string;
@@ -44,7 +46,7 @@
     const store = getContext<Writable<FirebaseStore>>('store');
 	//console.log("Just after getContext " + Object.keys($store));
 	export let articles: Article[] = [];
-	//console.log(articles.length);
+	//console.log(articles);
 
 	let newArticleUrl: string = '';
 
@@ -66,9 +68,10 @@
 				const errorData = await previewResponse.json();
 				throw errorData.errors;
 			}
-			let preview = await previewResponse.json() as ArticlePreview;
-			preview.description = preview.description.length > 100 ? preview.description.substr(0, 100) + '...' : preview.description;
-			newArticle.preview = preview;
+			let preview = await previewResponse.json() as GetLinkPreviewResponse;
+			newArticle.title = preview.title;
+			newArticle.description = preview.description.length > 100 ? preview.description.substr(0, 100) + '...' : preview.description;
+			newArticle.image = preview.images.length > 0 ? preview.images[0] : '';			
 			articles = [...articles, newArticle];
 			fetch('/articles.json', {
 				method: 'post',
@@ -112,43 +115,46 @@
 
 <section id="feed">
 	{#each sortNewest(articles) as article}
-		<article>
-			<div class="articleImage">
-				<img
-					src={article.preview?.images?.length > 0 ? article.preview.images[0] : ''}
-					alt={article.preview.title}
-					width="100"
-				/>
-			</div>
-			<div class="articleInfo">
-				<h4>{article.preview.title}</h4>
-				<p>{article.preview.description}</p>
-				<a href={article.href} target="_blank">Visit</a>
-			</div>
-		</article>
+		<ArticleCard {article} />
+	{:else}
+		<p>Start this section off by posting a link to an interesting article!</p>
 	{/each}
 </section>
 
 <!-- ****** Styling ****** -->
 <style>
 	#newArticle {
+		width: 75%;
 		display: flex;
 		flex-direction: column;
-		text-align: left;
+		align-items: center;
 		gap: 10px;
 		margin-bottom: 20px;
 	}
-	#feed {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
+	#newPostForm {
+		width: 100%;
 	}
-	article {
+	#titleSection {
+		width: 100%;
 		display: flex;
 		flex-direction: row;
+		justify-content: start;
+		align-items: center;
+		gap: 10px;
 	}
-	.articleImage {
-		width: 100px;
-		height: 100px;
+	label {
+		width: 35%;
+		text-align: right;
+	}
+	input {
+		width: 30%;
+		text-align: left;
+	}
+	#feed {
+		width: 75%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
 	}
 </style>

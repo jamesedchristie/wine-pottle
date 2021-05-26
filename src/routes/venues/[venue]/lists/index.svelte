@@ -10,7 +10,8 @@
                 const errorData = await listResponse.json();
                 throw errorData.errors;
             }
-			const wineLists = await listResponse.json();
+			const wineLists: WineList[] = await listResponse.json();
+			wineLists.forEach(l => l.datetime = new Date(l.datetime));
 			return {
 				props: {
 					wineLists: wineLists
@@ -32,6 +33,7 @@
 	import { sortNewest } from '$lib/utils';
     import Button from '$lib/components/Button.svelte';
 	import ErrorAlert from '$lib/components/ErrorAlert.svelte';
+import ListCard from '$lib/components/ListCard.svelte';
 
 	export let err: string;
 
@@ -46,6 +48,7 @@
 		try {
 			const newWineList: WineList = {
 				userId: $session.user.id,
+				poster: $session.user.name,
 				venueId: $session.venue.id,
 				listVenueName: venueName,
 				href: newListUrl,
@@ -96,18 +99,14 @@
 
 <section id="feed">
 	{#each sortNewest(wineLists) as list}
-		<article>
-			<h4>{list.listVenueName}</h4>
-            <a href={list.href} target="_blank">Open</a>
-            <p>{list.note}</p>
-		</article>
+		<ListCard {list} />
 	{/each}
 </section>
 
 <!-- ****** Styling ****** -->
 <style>
     #newListForm {
-		width: 100%;
+		width: 75%;
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
@@ -137,12 +136,10 @@
 		box-sizing: border-box;
     }
 	#feed {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		gap: 20px;
 	}
-    article {
-        border: 1px solid black;
-        border-radius: 5px;
-    }
 </style>

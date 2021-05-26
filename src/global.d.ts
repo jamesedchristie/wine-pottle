@@ -58,7 +58,7 @@ type CloudinaryImage = {
 	secure_url: string;
 };
 
-type ArticlePreview = {
+type GetLinkPreviewResponse = {
 	url: string;
 	title: string;
 	siteName: string | undefined;
@@ -74,24 +74,17 @@ type ArticlePreview = {
 		height: string | undefined;
 	}[];
 	favicons: string[];
-};
+}
 
 type Article = {
 	id?: string;
 	userId: string;
 	venueId: string;
-	datetime: Date | string;
+	datetime: Date;
 	href: string;
-	preview?: ArticlePreview;
-};
-
-type PostRequest = {
-	method: 'POST';
-	credentials: 'include';
-	body: unknown;
-	headers: {
-		'Content-Type': 'application/json';
-	};
+	title?: string;
+	description?: string;
+	image?: string;
 };
 
 type NewArticleData = {
@@ -103,9 +96,10 @@ type NewArticleData = {
 
 type WineList = {
 	userId: string;
+	poster: string;
 	venueId: string;
 	href: string;
 	listVenueName: string;
 	note: string;
-	datetime: Date | string;
+	datetime: Date;
 };

@@ -30,6 +30,7 @@
     import Card from "$lib/components/Card.svelte";
     import Button from '$lib/components/Button.svelte';
     import ErrorAlert from '$lib/components/ErrorAlert.svelte';
+    import PostCard from '$lib/components/PostCard.svelte';
     import { session } from "$app/stores";
     import { sortNewest } from "$lib/utils";
 
@@ -93,26 +94,11 @@
 
 <section id="feed">
     {#each sortNewest(posts) as post}
-        <article>
-            <div class="postMeta">
-                <strong>{post.author}</strong>
-                <i>{post.datetime.toLocaleDateString()}</i>
-            </div>
-            <div class="postContent">
-                <h3>{post.title}</h3>
-                <p>{post.content}</p>
-            </div>
-        </article>
+        <PostCard post={post} />
     {/each}
 </section>
 
 <style>
-    article {
-        display: flex;
-        flex-direction: row;
-        border: 1px solid var(--wine-pottle-black);
-        border-radius: 10px;
-    }
     #compose {
         width: 50%;
         display: flex;
@@ -137,21 +123,5 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
-    }
-    .postMeta {
-        flex: 25%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--wine-pottle-black);
-        color: white;
-    }
-    .postContent {
-        flex: 75%;
-        justify-content: center;
-        align-items: center;
-        text-align: start;
-        padding: 0px 10px;
     }
 </style>

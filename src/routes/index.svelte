@@ -31,6 +31,7 @@
 <script lang="ts">
 	import ErrorAlert from '$lib/components/ErrorAlert.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import VenueCard from '$lib/components/VenueCard.svelte';
 	import { session } from '$app/stores';
 	import type { UVM, Venue } from '$types';
 
@@ -65,25 +66,7 @@
 			<h2>Your Venues</h2>
 			<div id="userVenues">
 				{#each userVenues as venue}
-					<a href={`venues/enter?venueId=${venue.id}&route=${venue.route}`}>
-						<div class="venueCard">
-							<div class="venueImage">								
-								<img 
-								src={venue.venueImageId 
-								? `https://res.cloudinary.com/dkj7bctqg/image/upload/v1621853195/${venue.venueImageId}`
-								: 'https://res.cloudinary.com/dkj7bctqg/image/upload/c_crop,h_300,w_300,x_256,y_284/v1621857774/WinePottle/wine-bar-default.jpg'}
-								alt={venue.name} 
-								style="border-top-left-radius: 5px; border-top-right-radius: 5px;"
-								height="300px"
-								width="300px"
-								/>								
-							</div>							
-							<div class="venueInfo">
-								<h4>{venue.name}</h4>
-								<p>{venue.description || ""}</p>
-							</div>
-						</div>
-					</a>
+					<VenueCard venue={venue} linkMode='enter' />
 				{/each}
 			</div>
 		{/if}		
@@ -91,24 +74,7 @@
 			<h2>All Venues</h2>
 			<div id="allVenues">
 				{#each otherVenues as venue}
-					<div class="venueCard">
-						<div class="venueImage">								
-							<img 
-							src={venue.venueImageId 
-							? `https://res.cloudinary.com/dkj7bctqg/image/upload/v1621853195/${venue.venueImageId}`
-							: 'https://res.cloudinary.com/dkj7bctqg/image/upload/c_crop,h_300,w_300,x_256,y_284/v1621857774/WinePottle/wine-bar-default.jpg'}
-							alt={venue.name} 
-							style="border-radius: 5px;"
-							height="300px"
-							width="300px"
-							/>								
-						</div>							
-						<div class="venueInfo">
-							<h4>{venue.name}</h4>
-							<p>{venue.description || ""}</p>
-							<a href={`/venues/join?venue=${venue.id}`}>Join</a>
-						</div>
-					</div>					
+					<VenueCard venue={venue} linkMode='join' />				
 				{/each}
 			</div>
 		{/if}
@@ -140,18 +106,5 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 50px
-	}
-	.venueCard {
-		width: 300px;
-		border: 1px solid black;
-		border-radius: 10px;
-		box-shadow: 2px 2px 10px grey;
-		transition: box-shadow 0.25s ease 0s;
-	}
-	.venueCard:hover {
-		box-shadow: 1px 1px 5px grey;
-	}
-	.venueInfo {
-		padding: 10px
 	}
 </style>
