@@ -108,3 +108,18 @@ type WineList = {
 	note: string;
 	datetime: Date;
 };
+
+type Source = {
+	isbn?: string;
+	url?: string;
+	author?: string;
+	title: string;
+	year?: string;
+	publisher?: string;
+	image?: string;
+	comment?: string;
+	poster: string;
+	posterId: string;
+	datetime: Date;
+	venueId: string;
+}
