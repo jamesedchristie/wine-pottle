@@ -99,7 +99,7 @@
 
 <style>
 	:root {
-		--wine-pottle-black: rgb(25, 25, 40);
+		--wine-pottle-black: rgb(40, 40, 40);
 		--wine-pottle-secondary: rgb(40, 40, 117);
 		--wine-pottle-accent: rgb(114, 33, 53);
 	}

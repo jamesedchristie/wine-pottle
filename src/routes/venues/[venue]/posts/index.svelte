@@ -94,7 +94,7 @@
 
 <section id="feed">
     {#each sortNewest(posts) as post}
-        <PostCard post={post} />
+        <PostCard {post} />
     {/each}
 </section>
 

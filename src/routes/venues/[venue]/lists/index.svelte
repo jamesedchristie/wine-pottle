@@ -65,6 +65,9 @@ import ListCard from '$lib/components/ListCard.svelte';
 			.then(data => {
 				if (data.errors) throw data.errors;
 				console.log(data);
+				newListUrl = '';
+				venueName = '';
+				note = '';
 			});
 		} catch (error) {
 			err = error

@@ -82,6 +82,7 @@
 			.then(data => {
 				if (data.errors) throw data.errors;
 				console.log(data);
+				newArticleUrl = '';
 			});
 		} catch (error) {
 			err = error;

@@ -56,6 +56,11 @@ type CloudinaryImage = {
 	created_at: string;
 	tags: Array<string>;
 	secure_url: string;
+	context?: {	
+		caption: string;
+		poster: string;
+		userId: string;
+	}
 };
 
 type GetLinkPreviewResponse = {

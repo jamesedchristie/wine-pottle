@@ -40,8 +40,9 @@
         </nav>
     {/if}
 </section>
-
-<slot></slot>
+<section id="venuePage">
+    <slot></slot>
+</section>
 
 <!-- ****** Styling ****** -->
 <style>
@@ -65,5 +66,11 @@
         display: block;
         margin: auto 20px;
         font-size: 28px;
+    }
+    #venuePage {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 </style>

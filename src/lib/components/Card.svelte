@@ -15,7 +15,7 @@
     .cardTitle {
         font-size: x-large;
         color: white;
-        background-color: black;
+        background-color: var(--wine-pottle-black);
         padding: 10px 0px;
         margin-bottom: 10px;
     }

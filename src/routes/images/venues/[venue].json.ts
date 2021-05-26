@@ -5,7 +5,10 @@ export async function get({ params, query }: Request): Promise<EndpointOutput> {
     const venue: string = params.venue;
     const next: string = query.get('next');
     try { 
-        const gallery = await cloudinary.search.expression('tags=' + venue).execute();
+        const gallery = await cloudinary.search
+            .expression('tags=' + venue)
+            .with_field('context')
+            .execute();
         return {
             body: JSON.stringify(gallery)
         }
