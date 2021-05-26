@@ -94,7 +94,7 @@
 </main>
 
 <footer>
-	<p>&copy; Jasmin Natterer 2021</p>
+	<p>This is the footer</p>
 </footer>
 
 <style>
