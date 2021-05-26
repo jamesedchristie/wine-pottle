@@ -9,7 +9,7 @@
     import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
     import type { UserCredential } from '@firebase/auth';
     import { getContext } from 'svelte';
-    import { collection, doc, getDoc, setDoc } from '@firebase/firestore';
+    import { addDoc, collection, doc, getDoc, setDoc } from '@firebase/firestore';
     import type { FirebaseStore } from 'src/global';
     import type { Writable } from 'svelte/store';
     export let authMode: 'login' | 'register' = 'login';
@@ -72,7 +72,7 @@
         }
         try {
             const creds = await createUserWithEmailAndPassword($store.auth, email, password);
-            await setDoc(doc($store.firestore, 'users'), {
+            await setDoc(doc($store.firestore, 'users', creds.user.uid), {
                 name: username,
                 email: email
             });
