@@ -27,6 +27,9 @@ export const routes = [
 	// src/routes/articles/preview.ts
 	[/^\/articles\/preview\/?$/],
 
+	// src/routes/reading/index.json.ts
+	[/^\/reading\.json$/],
+
 	// src/routes/images/upload.ts
 	[/^\/images\/upload\/?$/],
 

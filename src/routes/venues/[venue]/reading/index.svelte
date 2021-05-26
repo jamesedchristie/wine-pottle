@@ -11,10 +11,11 @@
 				throw errorData.errors;
 			}
 			const sources: Source[] = await sourcesResponse.json();
-			sources.forEach((s) => (s.datetime = new Date(s.datetime)));
+			sources?.forEach((s) => (s.datetime = new Date(s.datetime)));
+            //console.log(sources);
 			return {
 				props: {
-					wineLists: sources
+					sources: sources
 				}
 			};
 		} catch (err) {
@@ -34,7 +35,25 @@
     import { session } from '$app/stores';
     
     export let err: string;
-    export let sources: Source[] = null;
+    export let sources: Source[] = [];
+    //console.log(sources);
+
+    let sortProperty: string = 'author';
+    let order: 1 | -1 = 1;
+    $: compareFunction = (a: Source, b: Source) => {        
+        if (sortProperty == 'datetime') {
+            return (a.datetime.valueOf() - b.datetime.valueOf()) * order;
+        }
+        if (a[sortProperty].toUpperCase() < b[sortProperty].toUpperCase()) {
+            return -1 * order;
+        }
+        if (a[sortProperty].toUpperCase() > b[sortProperty].toUpperCase()) {
+            return 1 * order;
+        }
+        return 0;
+    }
+
+    $: sources?.sort(compareFunction);
 
     let isbn: string = '', url: string = '', author: string = '', title: string = '', year: string = '', publisher: string = '', image: string = '', comment: string = '';
 
@@ -71,7 +90,6 @@
 			err = error
 		}
     }
-
 </script>
 
 <!-- ****** Markup ****** -->
@@ -158,5 +176,6 @@
 		flex-direction: column;
 		flex-wrap: wrap;
 		max-width: 100%;
+        align-items: flex-start;
 	}
 </style>
