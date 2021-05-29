@@ -11,7 +11,7 @@
 				throw errorData.errors;
 			}
 			const gallery: ResourceApiResponse = await galleryResponse.json();
-            console.log(gallery);
+            //console.log(gallery);
 			return {
 				props: {
 					gallery: gallery

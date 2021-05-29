@@ -9,7 +9,7 @@
     import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
     import type { UserCredential } from '@firebase/auth';
     import { getContext } from 'svelte';
-    import { addDoc, collection, doc, getDoc, setDoc } from '@firebase/firestore';
+    import { collection, doc, getDoc, setDoc } from '@firebase/firestore';
     import type { FirebaseStore } from 'src/global';
     import type { Writable } from 'svelte/store';
     export let authMode: 'login' | 'register' = 'login';
@@ -49,12 +49,17 @@
                 }
             });
             let userDoc = await getDoc(doc(collection($store.firestore, 'users'), creds.user.uid));
-            $session.user = userDoc.data();
-            $session.user.id = creds.user.uid;
-            //console.log($session.user);
+            const sessionUser = {
+                id: creds.user.uid,
+                name: userDoc.get('name'),
+                email: userDoc.get('email')
+            };
             $loading = false;
+            $session.user = sessionUser;
+            //console.log($session.user);
             //console.log("Going to index");
             await goto('/');
+            
         } catch (error) {
             $loading = false;
             err = error;
@@ -72,10 +77,21 @@
         }
         try {
             const creds = await createUserWithEmailAndPassword($store.auth, email, password);
-            await setDoc(doc($store.firestore, 'users', creds.user.uid), {
-                name: username,
-                email: email
+            const response = await fetch('/users/create', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    uid: creds.user.uid,
+                    name: username,
+                    email: email
+                })
             });
+            if (!response.ok) {
+                let data = await response.json();
+                throw data.errors;
+            }
             login(creds);
         } catch (error) {
             $loading = false;

@@ -1,4 +1,4 @@
-import { firestore } from '$services/firebaseAdmin';
+import { auth, firestore } from '$services/firebaseAdmin';
 import type { VenueSecret } from '$types';
 import type { EndpointOutput, Request } from '@sveltejs/kit';
 
@@ -12,6 +12,7 @@ export async function post(
 	}
 ): Promise<EndpointOutput> {
 	try {
+		//console.log('Join venue called');
 		const doc = await firestore.collection('venues')
 			.doc(request.body.venueId)
 			.get();
@@ -22,15 +23,20 @@ export async function post(
 			password: doc.data().password
 		};
 		if (venue.password === request.body.password) {
-			await firestore.collection('venues').add({
+			//console.log('Password correct. Adding user to venue.')
+			await firestore.collection('venueMembers').add({
 				venueId: venue.id,
 				userId: request.body.userId
 			});
+			const userClaims = request.locals.user;			
+			const venuesWithAccess = userClaims.venues || [];
+			//console.log("Current user venues:");
+			//console.log(venuesWithAccess);
+			//console.log("Adding new venue to claim");
+			await auth.setCustomUserClaims(request.body.userId, { venues: [...venuesWithAccess, venue.id] });
+			//console.log("Returning");
 			return {
-				status: 200,
-				headers: {
-					'set-cookie': `venueId=${venue.id}; Path=/; HttpOnly`
-				},
+				status: 200,			
 				body: {
 					ok: true
 				}
@@ -44,6 +50,7 @@ export async function post(
 			};
 		}
 	} catch (err) {
+		console.log(err);
 		return {
 			status: 500,
 			body: {

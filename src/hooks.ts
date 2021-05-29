@@ -1,32 +1,33 @@
 import type { GetSession, Handle } from '@sveltejs/kit'; 
 import cookie from 'cookie';
 import { auth, firestore } from '$services/firebaseAdmin';
-import type { Venue, WinePottleUser } from '$types';
+import type { Venue, VenueSecret, WinePottleUser } from '$types';
 
 export const handle: Handle = async ({ request, render }) => {
     try {
         //console.log("Handle called");
         // console.log('Handle has been called at ' + new Date().toISOString());
         const cookies = cookie.parse(request.headers?.cookie || '');
-        let idToken = cookies.jwt;
-        if (!idToken) {
-            //console.log("Handle: No cookie. Checking authorisation header");
-            idToken = request.headers?.authorization;
-            //if (idToken) console.log("Found auth header: " + idToken.substr(0, 10));
-        }
-        if (idToken) {
+        const sessionCookie = cookies.session;
+        if (sessionCookie) {
             try {
-                const decodedToken = await auth.verifyIdToken(idToken);
-                //console.log("Token decoded")           
-                request.locals.user = decodedToken;
+                const decodedClaims = await auth.verifySessionCookie(sessionCookie);
+                request.locals.user = decodedClaims;
+                //console.log(decodedClaims);
             } catch (err) {
                 console.log('Authentication failed');
+                console.log(err);
             }
         }
         const venueId = cookies.venueId;
         if (venueId) {
+            if (!request.locals.user?.venues?.includes(venueId)) {
+                console.log("User has no access to this venue");
+                
+            } else {
+                request.locals.venueId = venueId;
+            }
             // console.log("VenueId: " + venueId)
-            request.locals.venueId = venueId;
         }
         return await render(request);
     } catch (err) {
@@ -53,7 +54,15 @@ export const getSession: GetSession = async (request) => {
         }
         if (request.locals.venueId) {
             const doc = await firestore.collection('venues').doc(request.locals.venueId).get();
-            venue = { id: doc.id, ...doc.data() };
+            const data = doc.data() as Venue;
+            venue = { 
+                id: doc.id,
+                name: data.name,
+                route: data.route,
+                owner: data.owner,
+                venueImageId: data.venueImageId,
+                description: data.description
+             };
         }
             
         return {

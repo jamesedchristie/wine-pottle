@@ -8,7 +8,7 @@
 				status: 302,
 				redirect: '/login'
 			};
-		}
+		}		
 		return {
 			props: {}
 		};

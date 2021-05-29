@@ -25,7 +25,7 @@
 <section 
     id="venueHeader" 
     style="background-image: url({$session.venue.venueImageId
-        ? `https://res.cloudinary.com/dkj7bctqg/image/upload/o_20/v1621853195/${$session.venue.venueImageId}`
+        ? `"https://res.cloudinary.com/dkj7bctqg/image/upload/o_20/v1621853195/${$session.venue.venueImageId}"`
         : 'https://res.cloudinary.com/dkj7bctqg/image/upload/o_20,c_crop,h_300,w_300,x_256,y_284/v1621857774/WinePottle/wine-bar-default.jpg'});"
 >
     {#if $session.venue}

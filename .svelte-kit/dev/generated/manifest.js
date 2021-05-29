@@ -90,8 +90,14 @@ export const routes = [
 	// src/routes/posts/index.json.ts
 	[/^\/posts\.json$/],
 
+	// src/routes/users/create.ts
+	[/^\/users\/create\/?$/],
+
 	// src/routes/users/[id].json.ts
 	[/^\/users\/([^/]+?)\.json$/],
+
+	// src/routes/auth/createSession.ts
+	[/^\/auth\/createSession\/?$/],
 
 	// src/routes/auth/logout.ts
 	[/^\/auth\/logout\/?$/],

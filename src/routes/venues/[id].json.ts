@@ -6,18 +6,17 @@ export async function get(request: Request): Promise<EndpointOutput> {
     try {
         const { params } = request;
         const { id } = params;
-        const resp = await firestore.doc(id).get();
+        const resp = await firestore.doc('venues/' +  id).get();
         const venue: Venue = {
             id: resp.id,
             name: resp.data().name,
             route: resp.data().route
         };
         return {
-            body: {
-                venue
-            }
+            body: venue
         };
     } catch (err) {
+        console.log(err);
         return {
             status: 404
         };
