@@ -37,6 +37,9 @@
             <a sveltekit:prefetch href={`/venues/${$session.venue.route}/articles`}>Articles</a>
             <a sveltekit:prefetch href={`/venues/${$session.venue.route}/lists`}>Lists</a>
             <a sveltekit:prefetch href={`/venues/${$session.venue.route}/reading`}>Reading</a>
+            {#if $session.venue.owner === $session.user.id}
+                <a sveltekit:prefetch href={`/venues/${$session.venue.route}/manage`}>Manage</a>
+            {/if}
         </nav>
     {/if}
 </section>

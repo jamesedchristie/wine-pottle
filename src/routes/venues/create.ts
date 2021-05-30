@@ -1,8 +1,9 @@
-import { firestore } from '$services/firebaseAdmin';
+import { auth, firestore } from '$services/firebaseAdmin';
 import type { EndpointOutput, Request } from '@sveltejs/kit';
 
 export async function post({
-	body
+	body,
+	locals
 }: Omit<Request, 'body'> & {
 	body: { 
 		name: string;
@@ -27,6 +28,9 @@ export async function post({
 			venueId: venueRef.id,
 			userId: userId
 		});
+		const userClaims = locals.user;
+		const managedVenues: string[] = userClaims.manager || [];
+		await auth.setCustomUserClaims(userId, { manager: [ venueRef.id, ...managedVenues ]})
 		return {
 			status: 200,
 			body: {

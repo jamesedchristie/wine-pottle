@@ -80,7 +80,7 @@
 		</div>
 		<div id="topNavRight">
 			{#if $session.user}
-				<a href={`/profile/${$session.user.name}`} style="margin: 0px 20px">{$session.user.name}</a>
+				<a href={`/users/${$session.user.id}/profile`} style="margin: 0px 20px">{$session.user.name}</a>
 				<Button variant="danger" on:click={logout}>Logout</Button>
 			{:else}
 				<a href="/login">Login</a>

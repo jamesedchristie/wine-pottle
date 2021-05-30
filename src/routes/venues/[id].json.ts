@@ -7,10 +7,14 @@ export async function get(request: Request): Promise<EndpointOutput> {
         const { params } = request;
         const { id } = params;
         const resp = await firestore.doc('venues/' +  id).get();
+        const data = resp.data();
         const venue: Venue = {
             id: resp.id,
-            name: resp.data().name,
-            route: resp.data().route
+            name: data.name,
+            route: data.route,
+            owner: data.owner,
+            venueImageId: data.venueImageId,
+            description: data.description
         };
         return {
             body: venue
@@ -18,7 +22,10 @@ export async function get(request: Request): Promise<EndpointOutput> {
     } catch (err) {
         console.log(err);
         return {
-            status: 404
+            status: 500,
+            body: {
+                errors: err
+            }
         };
     }
 }

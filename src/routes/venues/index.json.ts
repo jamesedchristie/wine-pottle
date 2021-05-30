@@ -6,10 +6,17 @@ export async function get(request: Request): Promise<EndpointOutput> {
     const { query } = request;
     const venues: Venue[] = [];
     const venueSnapshot = await firestore.collection('venues').get();
-    venueSnapshot.forEach(doc => venues.push({
-        id: doc.id,
-        ...doc.data()
-    } as Venue));
+    venueSnapshot.forEach(doc => {
+        let data = doc.data();
+        venues.push({
+            id: doc.id,
+            name: data.name,
+            owner: data.owner,
+            description: data.description,
+            route: data.route,
+            venueImageId: data.venueImageId
+        } as Venue)
+    });
     if (query.get('userId')) {
         const userVenueMemberships: UVM[] = [];            
         const uvmSnapshot = await firestore.collection('venueMembers').where('userId', '==', query.get('userId')).get();

@@ -3,6 +3,7 @@ const c = [
 	() => import("..\\..\\..\\src\\routes\\__error.svelte"),
 	() => import("..\\..\\..\\src\\routes\\index.svelte"),
 	() => import("..\\..\\..\\src\\routes\\logout.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\unsubscribe.svelte"),
 	() => import("..\\..\\..\\src\\routes\\venues\\create.svelte"),
 	() => import("..\\..\\..\\src\\routes\\venues\\join.svelte"),
 	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\__layout.svelte"),
@@ -10,9 +11,11 @@ const c = [
 	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\articles\\index.svelte"),
 	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\gallery\\index.svelte"),
 	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\reading\\index.svelte"),
+	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\manage\\index.svelte"),
 	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\lists\\index.svelte"),
 	() => import("..\\..\\..\\src\\routes\\venues\\[venue]\\posts\\index.svelte"),
-	() => import("..\\..\\..\\src\\routes\\login.svelte")
+	() => import("..\\..\\..\\src\\routes\\login.svelte"),
+	() => import("..\\..\\..\\src\\routes\\users\\[userId]\\profile.svelte")
 ];
 
 const d = decodeURIComponent;
@@ -42,11 +45,14 @@ export const routes = [
 	// src/routes/venues/index.json.ts
 	[/^\/venues\.json$/],
 
+	// src/routes/venues/unsubscribe.svelte
+	[/^\/venues\/unsubscribe\/?$/, [c[0], c[4]], [c[1]]],
+
 	// src/routes/venues/create.ts
 	[/^\/venues\/create\/?$/],
 
 	// src/routes/venues/create.svelte
-	[/^\/venues\/create\/?$/, [c[0], c[4]], [c[1]]],
+	[/^\/venues\/create\/?$/, [c[0], c[5]], [c[1]]],
 
 	// src/routes/venues/enter.ts
 	[/^\/venues\/enter\/?$/],
@@ -58,37 +64,49 @@ export const routes = [
 	[/^\/venues\/join\/?$/],
 
 	// src/routes/venues/join.svelte
-	[/^\/venues\/join\/?$/, [c[0], c[5]], [c[1]]],
+	[/^\/venues\/join\/?$/, [c[0], c[6]], [c[1]]],
+
+	// src/routes/venues/quit.ts
+	[/^\/venues\/quit\/?$/],
 
 	// src/routes/venues/[id].json.ts
 	[/^\/venues\/([^/]+?)\.json$/],
 
 	// src/routes/venues/[venue]/index.svelte
-	[/^\/venues\/([^/]+?)\/?$/, [c[0], c[6], c[7]], [c[1]], (m) => ({ venue: d(m[1])})],
+	[/^\/venues\/([^/]+?)\/?$/, [c[0], c[7], c[8]], [c[1]], (m) => ({ venue: d(m[1])})],
 
 	// src/routes/venues/[venue]/articles/index.svelte
-	[/^\/venues\/([^/]+?)\/articles\/?$/, [c[0], c[6], c[8]], [c[1]], (m) => ({ venue: d(m[1])})],
+	[/^\/venues\/([^/]+?)\/articles\/?$/, [c[0], c[7], c[9]], [c[1]], (m) => ({ venue: d(m[1])})],
 
 	// src/routes/venues/[venue]/gallery/index.svelte
-	[/^\/venues\/([^/]+?)\/gallery\/?$/, [c[0], c[6], c[9]], [c[1]], (m) => ({ venue: d(m[1])})],
+	[/^\/venues\/([^/]+?)\/gallery\/?$/, [c[0], c[7], c[10]], [c[1]], (m) => ({ venue: d(m[1])})],
 
 	// src/routes/venues/[venue]/reading/index.svelte
-	[/^\/venues\/([^/]+?)\/reading\/?$/, [c[0], c[6], c[10]], [c[1]], (m) => ({ venue: d(m[1])})],
+	[/^\/venues\/([^/]+?)\/reading\/?$/, [c[0], c[7], c[11]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/venues/[venue]/manage/index.svelte
+	[/^\/venues\/([^/]+?)\/manage\/?$/, [c[0], c[7], c[12]], [c[1]], (m) => ({ venue: d(m[1])})],
+
+	// src/routes/venues/[venue]/manage/update.ts
+	[/^\/venues\/([^/]+?)\/manage\/update\/?$/],
 
 	// src/routes/venues/[venue]/lists/index.svelte
-	[/^\/venues\/([^/]+?)\/lists\/?$/, [c[0], c[6], c[11]], [c[1]], (m) => ({ venue: d(m[1])})],
+	[/^\/venues\/([^/]+?)\/lists\/?$/, [c[0], c[7], c[13]], [c[1]], (m) => ({ venue: d(m[1])})],
 
 	// src/routes/venues/[venue]/posts/index.svelte
-	[/^\/venues\/([^/]+?)\/posts\/?$/, [c[0], c[6], c[12]], [c[1]], (m) => ({ venue: d(m[1])})],
+	[/^\/venues\/([^/]+?)\/posts\/?$/, [c[0], c[7], c[14]], [c[1]], (m) => ({ venue: d(m[1])})],
 
 	// src/routes/lists/index.json.ts
 	[/^\/lists\.json$/],
 
 	// src/routes/login.svelte
-	[/^\/login\/?$/, [c[0], c[13]], [c[1]]],
+	[/^\/login\/?$/, [c[0], c[15]], [c[1]]],
 
 	// src/routes/posts/index.json.ts
 	[/^\/posts\.json$/],
+
+	// src/routes/users/index.json.ts
+	[/^\/users\.json$/],
 
 	// src/routes/users/create.ts
 	[/^\/users\/create\/?$/],
@@ -96,8 +114,11 @@ export const routes = [
 	// src/routes/users/[id].json.ts
 	[/^\/users\/([^/]+?)\.json$/],
 
-	// src/routes/auth/createSession.ts
-	[/^\/auth\/createSession\/?$/],
+	// src/routes/users/[userId]/venues.json.ts
+	[/^\/users\/([^/]+?)\/venues\.json$/],
+
+	// src/routes/users/[userId]/profile.svelte
+	[/^\/users\/([^/]+?)\/profile\/?$/, [c[0], c[16]], [c[1]], (m) => ({ userId: d(m[1])})],
 
 	// src/routes/auth/logout.ts
 	[/^\/auth\/logout\/?$/],
