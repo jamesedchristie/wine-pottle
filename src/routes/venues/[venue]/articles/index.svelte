@@ -94,11 +94,11 @@
 <h1>Articles</h1>
 
 {#if err}
-    <ErrorAlert>{err}</ErrorAlert>
+    <ErrorAlert message={err} />
 {/if}
 
 <section id="newArticle">
-	<form id="newPostForm" on:submit|preventDefault={newArticle}>
+	<form id="newArticleForm" on:submit|preventDefault={newArticle}>
 		<div id="titleSection">
 			<label for="articleUrl">URL</label>
 			<input
@@ -108,7 +108,7 @@
 				placeholder="Paste the address of the article..."
 			/>
 		</div>
-		<div id="newPostButtons">
+		<div id="postButton">
 			<Button variant="primary" type="submit">Post</Button>
 		</div>
 	</form>
@@ -125,14 +125,15 @@
 <!-- ****** Styling ****** -->
 <style>
 	#newArticle {
-		width: 75%;
+		max-width: 500px;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 10px;
 		margin-bottom: 20px;
 	}
-	#newPostForm {
+	form {
 		width: 100%;
 	}
 	#titleSection {
@@ -144,15 +145,19 @@
 		gap: 10px;
 	}
 	label {
-		width: 35%;
+		max-width: fit-content;
 		text-align: right;
 	}
 	input {
-		width: 30%;
+		width: 100%;
 		text-align: left;
 	}
+	#postButton {
+		text-align: right;
+	}
 	#feed {
-		width: 75%;
+		width: 100%;
+		max-width: 800px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

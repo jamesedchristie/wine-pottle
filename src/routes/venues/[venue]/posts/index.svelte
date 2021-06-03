@@ -73,7 +73,7 @@
 <h2>Posts</h2>
 
 {#if err}
-    <ErrorAlert>{err}</ErrorAlert>
+    <ErrorAlert message={err} />
 {/if}
 
 <section id="compose">
@@ -100,7 +100,8 @@
 
 <style>
     #compose {
-        width: 50%;
+        width: 100%;
+        max-width: 500px;
         display: flex;
         flex-direction: column;
         text-align: left;
@@ -119,7 +120,7 @@
         gap: 10px;
     }
     #feed {
-        width: 50%;
+        max-width: 800px;
         display: flex;
         flex-direction: column;
         gap: 20px;

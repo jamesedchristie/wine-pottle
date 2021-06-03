@@ -79,7 +79,7 @@ import ListCard from '$lib/components/ListCard.svelte';
 <h1>Wine Lists</h1>
 
 {#if err}
-    <ErrorAlert>{err}</ErrorAlert>
+    <ErrorAlert message={err} />
 {/if}
 
 <form id="newListForm" on:submit|preventDefault={addList}>
@@ -109,7 +109,7 @@ import ListCard from '$lib/components/ListCard.svelte';
 <!-- ****** Styling ****** -->
 <style>
     #newListForm {
-		width: 75%;
+		max-width: 500px;
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
@@ -117,24 +117,17 @@ import ListCard from '$lib/components/ListCard.svelte';
 	}
 	.formRow {
 		display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: start;
-        align-items: center;
         gap: 10px;
 	}
 	.buttonRow {
-		display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+		text-align: end;        
 	}
 	label {
-        width: 20%;
-        text-align: end;
+		text-align: start;
     }
     input, textarea {
-        width: 60%;
         text-align: start;
 		box-sizing: border-box;
     }

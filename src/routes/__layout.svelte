@@ -1,29 +1,19 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
 
-	export const load: Load = ({ session, page }) => {
-		if (!session.user && !page.path.includes('login')) {
-			//console.log('Layout loading. No user. Redirecting to login');
-			return {
-				status: 302,
-				redirect: '/login'
-			};
-		}		
-		return {
-			props: {}
-		};
-	};
+	// export const load: Load = ({ session, page }) => {
+	// 	if (!session.user && !page.path.includes('login')) {
+	// 		//console.log('Layout loading. No user. Redirecting to login');
+	// 		return {
+	// 			status: 302,
+	// 			redirect: '/login'
+	// 		};
+	// 	}		
+	// 	return {
+	// 		props: {}
+	// 	};
+	// };
 
-	// onMount(() => {
-	//     if (browser) {
-	//         if (getApps().length === 0) {
-	//             const firebaseApp = initializeApp(firebase_config);
-	//             return {
-	//                 context: { firebaseApp }
-	//             }
-	//         }
-	//     }
-	// })
 </script>
 
 <script lang="ts">
@@ -156,16 +146,19 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		padding: 0px 20px;
+		padding: 0px 20px 20px 20px;
+
 	}
 	footer {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+		background-color: var(--wine-pottle-black);
+		color: white;
 	}
-	@media screen and (min-width: 800px) {
+	@media screen and (min-width: 768px) {
 		main {
-			padding: 0px 200px;
+			padding: 0px 200px 50px 200px;
 		}
 	}
 </style>

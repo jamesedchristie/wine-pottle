@@ -21,7 +21,7 @@
 <style>
     article {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         border: 1px solid var(--wine-pottle-black);
         border-radius: 10px;
         box-shadow: 1px 1px 5px grey;
@@ -33,6 +33,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding: 5px;
         background-color: var(--wine-pottle-black);
         color: white;
     }
@@ -42,5 +43,11 @@
         align-items: center;
         text-align: start;
         padding: 0px 10px;
+    }
+
+    @media screen and (min-width: 768px) {
+        article {
+            flex-direction: row;
+        }
     }
 </style>

@@ -40,8 +40,8 @@
 
     let sortProperty: string = 'author';
     let order: 1 | -1 = 1;
-    $: compareFunction = (a: Source, b: Source) => {        
-        if (sortProperty == 'datetime') {
+    $: compareFunction = (a: Source, b: Source) => {  		
+        if (sortProperty === 'datetime') {
             return (a.datetime.valueOf() - b.datetime.valueOf()) * order;
         }
         if (a[sortProperty].toUpperCase() < b[sortProperty].toUpperCase()) {
@@ -96,7 +96,7 @@
 <h2>Reading</h2>
 
 {#if err}
-	<ErrorAlert>{err}</ErrorAlert>
+	<ErrorAlert message={err} />
 {/if}
 
 <form id="newSourceForm" on:submit|preventDefault={addSource}>
@@ -105,7 +105,7 @@
 		<input id="authorName" bind:value={author} type="text" />
 	</div>
 	<div class="formRow">
-		<label for="title">TItle</label>
+		<label for="title">Title</label>
 		<input id="title" bind:value={title} type="text" />
 	</div>
 	<div class="formRow">
@@ -141,41 +141,47 @@
 <!-- ****** Styling ****** -->
 <style>
 	#newSourceForm {
-		width: 75%;
+		width: 100%;
+		max-width: 500px;
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
 		margin-bottom: 20px;
 	}
 	.formRow {
+		flex: auto;
 		display: flex;
-		flex-direction: row;
-		justify-content: start;
-		align-items: center;
+		flex-direction: column;
+		align-items: flex-start;
 		gap: 10px;
 	}
 	.buttonRow {
+		flex: auto;
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: end;
 		align-items: center;
 		gap: 10px;
-	}
-	label {
-		width: 20%;
-		text-align: end;
-	}
+	}	
 	input,
 	textarea {
-		width: 60%;
+		width: 100%;
 		text-align: start;
 		box-sizing: border-box;
 	}
 	.sourceList {
 		display: flex;
 		flex-direction: column;
+		gap: 10px;
 		flex-wrap: wrap;
 		max-width: 100%;
         align-items: flex-start;
+		padding-left: 10px;
+		list-style-type: none;
 	}
+	li {
+		text-align: left;
+		line-height: 20px;
+	}
+
 </style>

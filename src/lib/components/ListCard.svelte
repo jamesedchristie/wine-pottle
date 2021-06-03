@@ -22,12 +22,12 @@
 <!-- ****** Styling ****** -->
 <style>
     a {
-        width: 75%;
+        width: 100%;
+        max-width: 800px;
     }
     article {
         display: flex;
-        height: 100px;
-        flex-direction: row;
+        flex-direction: column;
         border: 1px solid var(--wine-pottle-black);
         background-color: inherit;
         border-radius: 10px;
@@ -40,28 +40,39 @@
         background-color: lightgray;
 	}
     .listMeta {
-        flex: 25%;
+        flex: auto;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        padding: 5px;
+        gap: 5px;
         justify-content: center;
         align-items: center;
         background-color: var(--wine-pottle-black);
         color: white;
     }
     .listContent {
-        flex: 75%;
+        flex: auto;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         text-align: start;
-        padding: 0px 10px;
+        padding: 10px;
     }
     h4 {
         font-size: 20px;
-        margin: 0px 0px;
+        margin: 0px 0px 5px 0px;
     }
     p {
         margin: 0px 0px;
+    }
+
+    @media screen and (min-width: 768px) {
+        article {
+            flex-direction: row;
+        }
+        .listMeta {
+            flex: none;
+            width: 25%;
+        }
     }
 </style>

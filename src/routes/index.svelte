@@ -85,9 +85,10 @@
 	.topRow {
 		width: 100%;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		justify-content: space-evenly;
 		align-items: center;
+		margin-bottom: 20px;
 	}
 	#titleOffset {
 		flex: 25%;
@@ -106,5 +107,11 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 50px
+	}
+
+	@media screen and (min-width: 768px) {
+		.topRow {
+			flex-direction: row;
+		}
 	}
 </style>

@@ -103,7 +103,7 @@
 </form>
 
 {#if err}
-	<ErrorAlert>{err}</ErrorAlert>
+	<ErrorAlert message={err} />
 {/if}
 
 <div id="gallery">
@@ -133,6 +133,7 @@
         width: 100%;
         display: flex;
         flex-direction: row;
+		align-items: center;
         gap: 10px;
     }
     label {

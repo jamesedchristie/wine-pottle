@@ -17,9 +17,7 @@
         <div class="articleInfo">
             <h4>{article.title}</h4>
             <i>{article.datetime.toLocaleDateString()}</i>
-            <div style="width: 100%;">
-                <hr />
-            </div>
+            <hr />
             <p>
                 {article.description}
             </p>
@@ -33,9 +31,10 @@
         width: 100%;
     }
     article {
+        width: 100%;
+        max-height: 500px;
         display: flex;
-        height: 200px;
-        flex-direction: row;
+        flex-direction: column;
         border: 1px solid var(--wine-pottle-black);
         background-color: inherit;
         border-radius: 10px;
@@ -48,27 +47,28 @@
         background-color: lightgray;
 	}
     .articleImage {
-        width: 25%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        flex: initial;        
         background-color: var(--wine-pottle-black);
         color: white;
     }
     img {
-        width: 100%;
-        height: 100%;
+        max-height: 100%;
+        max-width: 100%;
         object-fit: cover;
     }
+    hr {
+        color: var(--wine-pottle-black);
+        width: 100%;
+    }
     .articleInfo {
-        width: 75%;
+        width: 100%;
+        flex: auto;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: flex-start;
         text-align: start;
-        padding: 0px 10px;
+        padding: 10px;
     }
     h4 {
         font-size: 20px;
@@ -76,5 +76,21 @@
     }
     p {
         margin: 0px 0px;
+    }
+
+    @media screen and (min-width: 768px) {
+        article {
+            flex-direction: row;
+            height: 200px;
+        }
+        .articleImage {
+            flex: none;
+            width: 25%;
+        }
+        img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
     }
 </style>

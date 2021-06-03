@@ -7,8 +7,8 @@
         border: 1px solid black;
         border-radius: 10px;
         overflow: hidden;
-        min-width: 50%;
-        max-width: 100%;
+        width: 100%;
+        max-width: 800px;
         padding-bottom: 10px;
         box-shadow: 2px 2px 10px grey;
     }
